@@ -1,33 +1,46 @@
-<h2>Sign up</h2>
+<div class="container-fluid vh-100 d-flex p-0">
+  <div class="col-md-6 d-flex flex-column justify-content-center align-items-center bg-white" style="padding: 40px;">
+    <div class="w-100" style="max-width: 400px;">
+      <div class="text-start mb-4">
+        <%= link_to "/", class: "navbar-brand" do %>
+          <%= image_tag "logo-b.svg" , alt: "Logo", style: "width: 200px;" %>
+        <% end %>
+      </div>
+      <h2 class="mb-3">Create Account</h2>
+      <p class="mb-4">Compra Moda Exclusiva de Forma Segura</p>
+      <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <%= f.error_notification %>
 
-<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= f.error_notification %>
+        <div class="form-group mb-3">
+          <%= f.input :first_name, required: true, autofocus: true, input_html: { autocomplete: "First name", class: 'form-control' }, label: 'First name' %>
+        </div>
+        <div class="form-group mb-3">
+          <%= f.input :last_name, required: true, input_html: { autocomplete: "Last name", class: 'form-control' }, label: 'Last name' %>
+        </div>
+        <div class="form-group mb-3">
+          <%= f.input :email, required: true, input_html: { autocomplete: "email", class: 'form-control' }, label: 'Email address' %>
+        </div>
+        <div class="form-group mb-3">
+          <%= f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), input_html: { autocomplete: "new-password", class: 'form-control' }, label: 'Password' %>
+        </div>
+        <div class="form-group mb-4">
+          <%= f.input :password_confirmation, required: true, input_html: { autocomplete: "new-password", class: 'form-control' }, label: 'Confirm password' %>
+        </div>
 
-  <div class="form-inputs">
-    <%= f.input :first_name,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "First name" }%>
-    <%= f.input :last_name,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "Last name" }%>
-    <%= f.input :email,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "email" }%>
-    <%= f.input :password,
-                required: true,
-                hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                input_html: { autocomplete: "new-password" } %>
-    <%= f.input :password_confirmation,
-                required: true,
-                input_html: { autocomplete: "new-password" } %>
+        <div class="form-actions mb-3">
+          <%= f.button :submit, "Continue with Email", class: "btn btn-primary rounded-pill w-100" %>
+        </div>
+      <% end %>
+
+      <div class="text-center mt-4">
+        <p>By signing up you agree to the <%= link_to 'Terms of Use & Data', '#', class: 'text-dark' %> & <%= link_to 'Privacy Policy', '#', class: 'text-dark' %>.</p>
+        <p class="mt-2">Already have an account? <%= link_to 'Log in', new_user_session_path, class: 'text-dark' %></p>
+      </div>
+    </div>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, "Sign up" %>
+  <!-- Sección derecha con imagen random -->
+  <div class="col-md-6 d-none d-md-flex flex-column justify-content-center align-items-center p-0">
+    <%= image_tag "hero-background-newuser.png", alt: "Random Image", class: "img-fluid vh-100 w-100"  %>
   </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>

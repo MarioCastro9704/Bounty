@@ -1,20 +1,39 @@
-<h2>Log in</h2>
+<div class="container-fluid vh-100 d-flex p-0">
+  <div class="col-md-6 d-flex flex-column justify-content-center align-items-center bg-white" style="padding: 40px;">
+    <div class="w-100" style="max-width: 400px;">
+      <div class="text-start mb-4">
+        <%= link_to "/", class: "navbar-brand" do %>
+          <%= image_tag "logo-b.svg", alt: "Logo", style: "width: 200px;" %>
+        <% end %>
+      </div>
+      <h2 class="mb-3">Log in</h2>
+      <p class="mb-4">Compra Moda Exclusiva de Forma Segura</p>
+      <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <%= f.error_notification %>
 
-<%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="form-inputs">
-    <%= f.input :email,
-                required: false,
-                autofocus: true,
-                input_html: { autocomplete: "email" } %>
-    <%= f.input :password,
-                required: false,
-                input_html: { autocomplete: "current-password" } %>
-    <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+        <div class="form-group mb-3">
+          <%= f.input :email, required: false, autofocus: true, input_html: { autocomplete: "email", class: 'form-control' }, label: 'Email address' %>
+        </div>
+        <div class="form-group mb-3">
+          <%= f.input :password, required: false, input_html: { autocomplete: "current-password", class: 'form-control' }, label: 'Password' %>
+        </div>
+        <div class="form-group mb-4">
+          <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable?%>
+        </div>
+
+        <div class="form-actions mb-3">
+          <%= f.button :submit, "Log in", class: "btn btn-primary rounded-pill w-100" %>
+        </div>
+      <% end %>
+
+      <div class="text-center mt-4">
+        <%= render "devise/shared/links" %>
+      </div>
+    </div>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, "Log in" %>
+  <!-- Sección derecha con imagen random -->
+  <div class="col-md-6 d-none d-md-flex flex-column justify-content-center align-items-center p-0">
+    <%= image_tag "hero-background-newuser.png", alt: "Random Image", class: "img-fluid vh-100 w-100" %>
   </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>

@@ -4,21 +4,59 @@
     <p>Busca por <strong>nombre</strong>, <strong>marca</strong> y <strong>categoria</strong>.</p>
   </div>
 
-  <div class="row">
-    <% @products.each do |product| %>
-      <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-        <div class="card h-100">
-          <p>Imagen</p>
-          <div class="card-body d-flex flex-column text-center">
-            <h5 class="card-title"><%= product.model %></h5>
-            <p class="card-text"><strong>Precio: </strong> $<%= product.price %></p>
-            <p class="card-text"><strong>Disponible: </strong> <%= product.available ? "Yes" : "No" %></p>
-            <div>
-              <%= link_to 'Ver mas', product_path(product), class: "btn btn-primary" %>
-            </div>
-          </div>
-        </div>
-      </div>
-    <% end %>
+  <div class="container mt-5">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Listado de Productos</h2>
+    <%= link_to 'Crear Producto', new_product_path, class: "btn btn-primary rounded-pill" %>
   </div>
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th>ID</th>
+          <th>Imagen</th>
+          <th>Categoría</th>
+          <th>Precio</th>
+          <th>Descripción</th>
+          <th>Modelo</th>
+          <th>Marca</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @products.each do |product| %>
+          <tr>
+            <td><%= product.id %></td>
+            <td>
+              <% if product.image_url.present? %>
+                <%= image_tag product.image_url, class: "img-thumbnail card-rounded", style: "width: 50px; height: 50px;" %>
+              <% else %>
+                <span class="placeholder-icon">No Image</span>
+              <% end %>
+            </td>
+            <td><%= product.category %></td>
+            <td><%= number_to_currency(product.price) %></td>
+            <td><%= product.description %></td>
+            <td><%= product.model %></td>
+            <td><%= product.brand %></td>
+            <td>
+              <% if product.available %>
+                <span class="badge bg-success rounded-pill">Disponible</span>
+              <% else %>
+                <span class="badge bg-danger rounded-pill">No disponible</span>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to 'Editar', edit_product_path(product), class: "btn btn-warning text-white btn-sm me-2 rounded-pill" %>
+              <%= link_to 'Eliminar', product_path(product), method: :delete, data: { confirm: '¿Estás seguro?' }, class: "btn btn-danger text-white btn-sm rounded-pill" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
 </div>
