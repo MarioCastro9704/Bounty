@@ -1,2 +1,40 @@
-<h1>Products#new</h1>
-<p>Find me in app/views/products/new.html.erb</p>
+<div class="container mt-5">
+  <h2>Crear Nuevo Producto</h2>
+  <%= form_with model: @product, local: true do |form| %>
+    <div class="mb-3">
+      <%= form.label :category %>
+      <%= form.text_field :category, class: "form-control" %>
+    </div>
+    <div class="mb-3">
+      <%= form.label :price %>
+      <%= form.number_field :price, step: 0.01, class: "form-control" %>
+    </div>
+    <div class="mb-3">
+      <%= form.label :description %>
+      <%= form.text_area :description, class: "form-control" %>
+    </div>
+    <div class="mb-3">
+      <%= form.label :model %>
+      <%= form.text_field :model, class: "form-control" %>
+    </div>
+    <div class="mb-3">
+      <%= form.label :brand %>
+      <%= form.text_field :brand, class: "form-control" %>
+    </div>
+    <div class="mb-3">
+      <%= form.label :image_url %>
+      <%= form.text_field :image_url, class: "form-control" %>
+    </div>
+    <div class="mb-3">
+      <%= form.label :release_date %>
+      <%= form.date_field :release_date, class: "form-control" %>
+    </div>
+    <div class="mb-3">
+      <%= form.label :available %>
+      <%= form.check_box :available %>
+    </div>
+    <div class="mb-3">
+      <%= form.submit "Crear Producto", class: "btn btn-primary rounded-pill" %>
+    </div>
+  <% end %>
+</div>
