@@ -1,7 +1,7 @@
 <div class="navbar navbar-expand-sm navbar-light navbar-lewagon px-5">
   <div class="container-fluid">
     <%= link_to "/", class: "navbar-brand" do %>
-      <%= image_tag "logo-b.svg"%>
+      <%= image_tag "logo-b.svg" %>
     <% end %>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,12 +13,18 @@
 
       <div class="d-flex">
         <% if user_signed_in? %>
+          <button type="button" class="btn btn-primary m-4 rounded-pill">
+            <%= link_to "+ Publicar un producto", new_product_path, class: "nav-link" %>
+          </button>
           <li class="nav-item dropdown">
-            <a href="#" class="avatar nav-link" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu" %>
+            <a href="#" class="nav-link d-flex align-items-center" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <div class="avatar rounded-circle me-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background-color: <%= user_color(current_user) %>;">
+                <span class="text-white"><%= current_user.email[0].upcase %></span>
+              </div>
+              <span><%= current_user.email.split('@').first.capitalize %></span>
             </a>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <%= link_to "Action", "#", class: "dropdown-item" %>
+              <%= link_to "Configuración", "#", class: "dropdown-item" %>
               <%= link_to "Another action", "#", class: "dropdown-item" %>
               <%= link_to "Log out", destroy_user_session_path, data: { turbo_method: :delete }, class: "dropdown-item" %>
             </div>
