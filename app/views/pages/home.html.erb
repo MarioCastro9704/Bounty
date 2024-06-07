@@ -2,10 +2,67 @@
   <div class="row w-100">
     <div class="col-md-6 d-flex flex-column justify-content-center mb-4 mb-md-0 text-center text-md-start">
       <h1 class="display-4 fw-bold">Bounty, tu ropa de clase alta</h1>
-      <p class="lead">Tenemos los mejores vendedores de ropa edicion limitada a tan solo un click!</p>
+      <p class="lead">¡Tenemos los mejores vendedores de ropa edición limitada a tan solo un click!</p>
     </div>
     <div class="col-md-6 d-flex justify-content-center">
       <%= image_tag "logo-b.svg", alt: "hero image", class: "img-fluid" %>
     </div>
+  </div>
+</div>
+
+<div class="container my-5">
+  <h2 class="mb-4">Últimos Lanzamientos</h2>
+  <div class="row">
+    <% @latest_releases.each do |product| %>
+      <div class="col-md-4">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title"><%= product.model %></h5>
+            <p class="card-text"><%= product.description %></p>
+            <p class="card-text">Precio: <%= number_to_currency(product.price) %></p>
+            <p class="card-text">Categoría: <%= product.category %></p>
+            <a href="<%= product_path(product) %>" class="btn btn-primary rounded-pill">Ver Producto</a>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="container my-5">
+  <h2 class="mb-4">Agregados Recientemente</h2>
+  <div class="row">
+    <% @recently_added.each do |product| %>
+      <div class="col-md-4">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title"><%= product.model %></h5>
+            <p class="card-text"><%= product.description %></p>
+            <p class="card-text">Precio: <%= number_to_currency(product.price) %></p>
+            <p class="card-text">Categoría: <%= product.category %></p>
+            <a href="<%= product_path(product) %>" class="btn btn-primary rounded-pill">Ver Producto</a>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="container my-5">
+  <h2 class="mb-4">Los Más Vendidos</h2>
+  <div class="row">
+    <% @best_sellers.each do |product| %>
+      <div class="col-md-4">
+        <div class="card mb-4">
+          <div class="card-body">
+            <h5 class="card-title"><%= product.model %></h5>
+            <p class="card-text"><%= product.description %></p>
+            <p class="card-text">Precio: <%= number_to_currency(product.price) %></p>
+            <p class="card-text">Categoría: <%= product.category %></p>
+            <a href="<%= product_path(product) %>" class="btn btn-primary rounded-pill">Ver Producto</a>
+          </div>
+        </div>
+      </div>
+    <% end %>
   </div>
 </div>
