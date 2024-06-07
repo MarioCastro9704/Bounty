@@ -1,27 +1,34 @@
-<div class="hero-section container-fluid py-5">
+<div class="hero-section container-fluid px-5 py-5" style="background: url('<%= asset_path("hero-background.png") %>') no-repeat center center; background-size: cover;">
   <div class="row w-100">
-    <div class="col-md-6 d-flex flex-column justify-content-center mb-4 mb-md-0 text-center text-md-start">
-      <h1 class="display-4 fw-bold">Bounty, tu ropa de clase alta</h1>
-      <p class="lead">¡Tenemos los mejores vendedores de ropa edición limitada a tan solo un click!</p>
+    <div class="col-md-6 d-flex flex-column justify-content-center mb-4 mb-md-0 text-center text-md-start px-5">
+      <h1 class="display-4 fw-bold text-dark">Compra Moda Exclusiva de Forma Segura ✨</h1>
+      <p class="lead text-dark">Olvídate de las copias baratas y las compras de dudosa reputación. Aquí encontrarás piezas que brillan con personalidad propia, diseñadas para ti y para nadie más.</p>
     </div>
     <div class="col-md-6 d-flex justify-content-center">
-      <%= image_tag "logo-b.svg", alt: "hero image", class: "img-fluid" %>
+      <%= image_tag "shoes.png", alt: "hero image", class: "float-right" %>
     </div>
   </div>
 </div>
+
 
 <div class="container my-5">
   <h2 class="mb-4">Últimos Lanzamientos</h2>
   <div class="row">
     <% @latest_releases.each do |product| %>
       <div class="col-md-4">
-        <div class="card mb-4">
+        <div class="card mb-4 card-rounded" style="width: 24rem;">
+          <%= image_tag product.image_url, class: "card-img-top fixed-size-image", alt: product.model %>
           <div class="card-body">
             <h5 class="card-title"><%= product.model %></h5>
             <p class="card-text"><%= product.description %></p>
-            <p class="card-text">Precio: <%= number_to_currency(product.price) %></p>
-            <p class="card-text">Categoría: <%= product.category %></p>
-            <a href="<%= product_path(product) %>" class="btn btn-primary rounded-pill">Ver Producto</a>
+            <p class="card-text">Marca: <%= product.brand %></p>
+            <p class="card-text">Lanzamiento: <%= product.release_date.strftime("%d/%m/%Y") %></p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><%= number_to_currency(product.price) %></li>
+          </ul>
+          <div class="card-body">
+            <a href="<%= product_path(product) %>" class="btn btn-outline-dark rounded-pill">Comprar Producto</a>
           </div>
         </div>
       </div>
@@ -34,13 +41,19 @@
   <div class="row">
     <% @recently_added.each do |product| %>
       <div class="col-md-4">
-        <div class="card mb-4">
+        <div class="card mb-4 card-rounded" style="width: 24rem;">
+          <%= image_tag product.image_url, class: "card-img-top fixed-size-image", alt: product.model %>
           <div class="card-body">
             <h5 class="card-title"><%= product.model %></h5>
             <p class="card-text"><%= product.description %></p>
-            <p class="card-text">Precio: <%= number_to_currency(product.price) %></p>
-            <p class="card-text">Categoría: <%= product.category %></p>
-            <a href="<%= product_path(product) %>" class="btn btn-primary rounded-pill">Ver Producto</a>
+            <p class="card-text">Marca: <%= product.brand %></p>
+            <p class="card-text">Lanzamiento: <%= product.release_date.strftime("%d/%m/%Y") %></p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><%= number_to_currency(product.price) %></li>
+          </ul>
+          <div class="card-body">
+            <a href="<%= product_path(product) %>" class="btn btn-outline-dark rounded-pill">Comprar Producto</a>
           </div>
         </div>
       </div>
@@ -53,13 +66,19 @@
   <div class="row">
     <% @best_sellers.each do |product| %>
       <div class="col-md-4">
-        <div class="card mb-4">
+        <div class="card mb-4 card-rounded" style="width: 24rem;">
+          <%= image_tag product.image_url, class: "card-img-top fixed-size-image", alt: product.model %>
           <div class="card-body">
             <h5 class="card-title"><%= product.model %></h5>
             <p class="card-text"><%= product.description %></p>
-            <p class="card-text">Precio: <%= number_to_currency(product.price) %></p>
-            <p class="card-text">Categoría: <%= product.category %></p>
-            <a href="<%= product_path(product) %>" class="btn btn-primary rounded-pill">Ver Producto</a>
+            <p class="card-text">Marca: <%= product.brand %></p>
+            <p class="card-text">Lanzamiento: <%= product.release_date.strftime("%d/%m/%Y") %></p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><%= number_to_currency(product.price) %></li>
+          </ul>
+          <div class="card-body">
+            <a href="<%= product_path(product) %>" class="btn btn-outline-dark rounded-pill">Comprar Producto</a>
           </div>
         </div>
       </div>
