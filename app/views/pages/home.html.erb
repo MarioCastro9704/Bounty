@@ -23,7 +23,11 @@
             <p class="card-text"><%= product.description %></p>
             <p class="card-text">Marca: <%= product.brand %></p>
             <p class="card-text">Lanzamiento: <%= product.release_date.strftime("%d/%m/%Y") %></p>
-            <p class="card-text font-weight-bold">Precio: <%= number_to_currency(product.price) %></p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><%= number_to_currency(product.price) %></li>
+          </ul>
+          <div class="card-body">
             <a href="<%= product_path(product) %>" class="btn btn-outline-dark rounded-pill">Comprar Producto</a>
           </div>
         </div>
@@ -46,7 +50,7 @@
             <p class="card-text">Lanzamiento: <%= product.release_date.strftime("%d/%m/%Y") %></p>
           </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item font-weight-bolder"><%= number_to_currency(product.price) %></li>
+            <li class="list-group-item"><%= number_to_currency(product.price) %></li>
           </ul>
           <div class="card-body">
             <a href="<%= product_path(product) %>" class="btn btn-outline-dark rounded-pill">Comprar Producto</a>
@@ -69,7 +73,11 @@
             <p class="card-text"><%= product.description %></p>
             <p class="card-text">Marca: <%= product.brand %></p>
             <p class="card-text">Lanzamiento: <%= product.release_date.strftime("%d/%m/%Y") %></p>
-            <p class="card-text">Precio: <%= number_to_currency(product.price) %></p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><%= number_to_currency(product.price) %></li>
+          </ul>
+          <div class="card-body">
             <a href="<%= product_path(product) %>" class="btn btn-outline-dark rounded-pill">Comprar Producto</a>
           </div>
         </div>
