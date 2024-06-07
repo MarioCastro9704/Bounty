@@ -1,7 +1,7 @@
 <div class="navbar navbar-expand-sm navbar-light navbar-lewagon px-5">
   <div class="container-fluid">
     <%= link_to "/", class: "navbar-brand" do %>
-      <%= image_tag "logo-b.svg"%>
+      <%= image_tag "logo-b.svg" %>
     <% end %>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,27 +9,36 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto"></ul> <!-- Empty UL to maintain structure -->
+      <ul class="navbar-nav me-auto"></ul>
 
-      <div class="d-flex">
+      <div class="d-flex align-items-center">
         <% if user_signed_in? %>
-          <li class="nav-item dropdown">
-            <a href="#" class="avatar nav-link" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <%= image_tag "https://kitt.lewagon.com/placeholder/users/ssaunier", class: "avatar", alt: "dropdown menu" %>
+          <%= link_to new_product_path, class: "btn btn-primary my-2 mx-1 rounded-pill" do %>
+            + Publicar un producto
+          <% end %>
+          <%= link_to products_path, class: "btn btn-light my-2 mx-1 rounded-pill" do %>
+            Mis Productos
+          <% end %>
+          <li class="nav-item dropdown list-unstyled ">
+            <a href="#" class="nav-link d-flex align-items-center" id="navbarDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <div class="avatar rounded-circle me-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; background-color: <%= user_color(current_user) %>;">
+                <span class="text-white"><%= current_user.email[0].upcase %></span>
+              </div>
+              <span><%= current_user.email.split('@').first.capitalize %></span>
             </a>
-            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-              <%= link_to "Action", "#", class: "dropdown-item" %>
+            <div class="dropdown-menu dropdown-menu-end my-2" aria-labelledby="navbarDropdown">
+              <%= link_to "Configuración", "#", class: "dropdown-item" %>
               <%= link_to "Another action", "#", class: "dropdown-item" %>
               <%= link_to "Log out", destroy_user_session_path, data: { turbo_method: :delete }, class: "dropdown-item" %>
             </div>
           </li>
         <% else %>
-          <button type="button" class="btn btn-outline-primary me-2 rounded-pill">
-            <%= link_to "Login", new_user_session_path, class: "nav-link" %>
-          </button>
-          <button type="button" class="btn btn-primary rounded-pill">
-            <%= link_to "Sign-up", new_user_registration_path, class: "nav-link text-white" %>
-          </button>
+          <%= link_to new_user_session_path, class: "btn btn-outline-primary me-2 rounded-pill" do %>
+            Login
+          <% end %>
+          <%= link_to new_user_registration_path, class: "btn btn-primary rounded-pill text-white" do %>
+            Sign-up
+          <% end %>
         <% end %>
       </div>
     </div>

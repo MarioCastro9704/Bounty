@@ -1,4 +1,6 @@
 class ProductsController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
+
   def index
     @products = Product.all
   end
@@ -12,9 +14,9 @@ class ProductsController < ApplicationController
   end
 
   def create
-    @product = Product.new(product_params)
+    @product = current_user.products.build(product_params)
     if @product.save
-      redirect_to @product
+      redirect_to @product, notice: 'Producto creado exitosamente.'
     else
       render 'new'
     end
@@ -27,7 +29,7 @@ class ProductsController < ApplicationController
   def update
     @product = Product.find(params[:id])
     if @product.update(product_params)
-      redirect_to @product
+      redirect_to @product, notice: 'Producto actualizado exitosamente.'
     else
       render 'edit'
     end
@@ -36,12 +38,12 @@ class ProductsController < ApplicationController
   def destroy
     @product = Product.find(params[:id])
     @product.destroy
-    redirect_to products_path
+    redirect_to products_path, notice: 'Producto eliminado exitosamente.'
   end
 
   private
 
   def product_params
-    params.require(:product).permit(:user_id, :category, :price, :description, :model, :brand, :available)
+    params.require(:product).permit(:category, :price, :description, :model, :brand, :image_url, :release_date, :available)
   end
 end

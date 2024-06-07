@@ -1,2 +1,49 @@
-<h1>Products#edit</h1>
-<p>Find me in app/views/products/edit.html.erb</p>
+<div class="container mt-5">
+  <h2>Editar Producto</h2>
+  <%= form_with(model: @product, local: true) do |form| %>
+    <div class="mb-3">
+      <%= form.label :category, "Categoría" %>
+      <%= form.text_field :category, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :price, "Precio" %>
+      <%= form.number_field :price, step: 0.01, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :description, "Descripción" %>
+      <%= form.text_area :description, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :model, "Modelo" %>
+      <%= form.text_field :model, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :brand, "Marca" %>
+      <%= form.text_field :brand, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :image_url, "URL de la Imagen" %>
+      <%= form.text_field :image_url, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :release_date, "Fecha de Lanzamiento" %>
+      <%= form.date_field :release_date, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :available, "Disponible" %>
+      <%= form.check_box :available %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.submit "Guardar Cambios", class: "btn btn-primary rounded-pill" %>
+      <%= link_to 'Cancelar', products_path, class: "btn btn-secondary rounded-pill" %>
+    </div>
+  <% end %>
+</div>
