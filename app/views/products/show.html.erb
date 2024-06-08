@@ -7,7 +7,7 @@
     <div class="row g-0">
       <div class="col-md-6">
         <% if @product.image_url.present? %>
-          <img src="<%= @product.image_url %>" class="img-fluid rounded-start product-image fixed-size-image" alt=" <%= @product.model %>" style="width: 100%; height: auto; max-height: 600px; object-fit: cover;">
+          <img src="<%= @product.image_url %>" class="img-fluid rounded-start product-image fixed-size-image" alt="<%= @product.model %>" style="width: 100%; height: auto; max-height: 600px; object-fit: cover;">
         <% else %>
           <span class="placeholder-icon">No Image</span>
         <% end %>
@@ -18,13 +18,12 @@
           <strong style="font-size: 30px;" class="card-title"><%= @product.model %></strong>
           <p class="card-text"><%= @product.brand %></p>
           <p class="card-text"><%= @product.description %></p>
-
         </div>
 
         <div class="card-footer">
           <p class="card-text"><small class="text-body-secondary">Fecha de Lanzamiento: <%= @product.release_date %></small></p>
           <% if user_signed_in? %>
-            <%= link_to new_purchase_path, class: "btn btn-primary my-2 mx-1 rounded-pill" do %>
+            <%= link_to checkout_purchases_path(product_id: @product.id), class: "btn btn-primary my-2 mx-1 rounded-pill" do %>
               Comprar
             <% end %>
           <% else %>
@@ -35,11 +34,8 @@
               Sign-up
             <% end %>
           <% end %>
-
         </div>
       </div>
-
-
     </div>
   </div>
 </div>

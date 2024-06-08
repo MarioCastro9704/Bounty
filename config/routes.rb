@@ -12,11 +12,12 @@ Rails.application.routes.draw do
       get 'catalog'
     end
   end
-  resources :purchases
+  resources :purchases do
+    collection do
+      get 'checkout/:product_id', to: 'purchases#checkout', as: 'checkout'
+    end
+  end
 
   # Health check route
   get "up" => "rails/health#show", as: :rails_health_check
-
-  # Define other routes
-  get 'home/index'
 end

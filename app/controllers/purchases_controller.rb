@@ -1,10 +1,16 @@
 class PurchasesController < ApplicationController
+  before_action :set_product, only: %i[checkout]
+
   def index
     @purchases = Purchase.all
   end
 
   def show
     @purchase = Purchase.find(params[:id])
+  end
+
+  def checkout
+    @purchase = Purchase.new
   end
 
   def new
@@ -40,6 +46,10 @@ class PurchasesController < ApplicationController
   end
 
   private
+
+  def set_product
+    @product = Product.find(params[:product_id])
+  end
 
   def purchase_params
     params.require(:purchase).permit(:user_id, :product_id, :date, :status)

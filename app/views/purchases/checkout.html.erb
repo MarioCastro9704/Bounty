@@ -1,0 +1,36 @@
+<div class="container mt-5">
+  <h1>Checkout</h1>
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Detalles del Pedido</h3>
+      <div class="card mb-3">
+        <%= image_tag @product.image_url, class: "card-img-top" %>
+        <div class="card-body">
+          <h5 class="card-title"><%= @product.model %></h5>
+          <p class="card-text"><%= @product.description %></p>
+          <p class="card-text"><strong>Marca:</strong> <%= @product.brand %></p>
+          <p class="card-text"><strong>Precio:</strong> <%= number_to_currency(@product.price) %></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <h3>Detalles del Comprador</h3>
+      <%= form_with model: @purchase, url: purchases_path, local: true do |form| %>
+        <div class="mb-3">
+          <%= form.label :address, "Dirección de Envío" %>
+          <%= form.text_field :address, class: "form-control" %>
+        </div>
+        <div class="mb-3">
+          <%= form.label :payment_method, "Método de Pago" %>
+          <%= form.select :payment_method, ["Tarjeta de Crédito", "PayPal", "Transferencia Bancaria"], {}, class: "form-control" %>
+        </div>
+        <%= form.hidden_field :user_id, value: current_user.id %>
+        <%= form.hidden_field :product_id, value: @product.id %>
+        <div class="mb-3">
+          <%= form.submit "Confirmar Compra", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
