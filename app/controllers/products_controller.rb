@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show]
+  before_action :authenticate_user!, except: %i[index show]
 
   def index
     @products = Product.all
@@ -29,7 +29,7 @@ class ProductsController < ApplicationController
   def update
     @product = Product.find(params[:id])
     if @product.update(product_params)
-      redirect_to @product, notice: 'Producto actualizado exitosamente.'
+      redirect_to products_path, notice: 'Producto actualizado exitosamente.'
     else
       render 'edit'
     end
@@ -44,6 +44,7 @@ class ProductsController < ApplicationController
   private
 
   def product_params
-    params.require(:product).permit(:category, :price, :description, :model, :brand, :image_url, :release_date, :available)
+    params.require(:product).permit(:category, :price, :description, :model, :brand, :image_url, :release_date,
+                                    :available)
   end
 end

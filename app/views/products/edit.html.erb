@@ -2,6 +2,14 @@
   <h2>Editar Producto</h2>
   <%= form_with(model: @product, local: true) do |form| %>
     <div class="mb-3">
+      <%= form.label :model, "Modelo" %>
+      <%= form.text_field :model, class: "form-control" %>
+    </div>
+    <div class="mb-3">
+      <%= form.label :brand, "Marca" %>
+      <%= form.text_field :brand, class: "form-control" %>
+    </div>
+    <div class="mb-1">
       <%= form.label :category, "Categoría" %>
       <%= form.text_field :category, class: "form-control" %>
     </div>
@@ -14,16 +22,6 @@
     <div class="mb-3">
       <%= form.label :description, "Descripción" %>
       <%= form.text_area :description, class: "form-control" %>
-    </div>
-
-    <div class="mb-3">
-      <%= form.label :model, "Modelo" %>
-      <%= form.text_field :model, class: "form-control" %>
-    </div>
-
-    <div class="mb-3">
-      <%= form.label :brand, "Marca" %>
-      <%= form.text_field :brand, class: "form-control" %>
     </div>
 
     <div class="mb-3">

@@ -1,10 +1,8 @@
-<div class="container mt-5">
+<div class="container-fluid mt-5 px-5">
   <div class="text-center mb-4">
-    <h1>Encuentra tu ropa ideal, edicion limitada.</h1>
-    <p>Busca por <strong>nombre</strong>, <strong>marca</strong> y <strong>categoria</strong>.</p>
+    <h1>Encuentra tu ropa ideal, edición limitada.</h1>
+    <p>Busca por <strong>nombre</strong>, <strong>marca</strong> y <strong>categoría</strong>.</p>
   </div>
-
-  <div class="container mt-5">
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h2>Listado de Productos</h2>
     <%= link_to 'Crear Producto', new_product_path, class: "btn btn-primary rounded-pill" %>
@@ -15,11 +13,11 @@
         <tr>
           <th>ID</th>
           <th>Imagen</th>
-          <th>Categoría</th>
-          <th>Precio</th>
-          <th>Descripción</th>
           <th>Modelo</th>
           <th>Marca</th>
+          <th>Categoría</th>
+          <th>Descripción</th>
+          <th>Precio</th>
           <th>Estado</th>
           <th>Acciones</th>
         </tr>
@@ -35,11 +33,11 @@
                 <span class="placeholder-icon">No Image</span>
               <% end %>
             </td>
-            <td><%= product.category %></td>
-            <td><%= number_to_currency(product.price) %></td>
-            <td><%= product.description %></td>
             <td><%= product.model %></td>
             <td><%= product.brand %></td>
+            <td><%= product.category %></td>
+            <td><%= product.description %></td>
+            <td><%= number_to_currency(product.price) %></td>
             <td>
               <% if product.available %>
                 <span class="badge bg-success rounded-pill">Disponible</span>
@@ -48,15 +46,40 @@
               <% end %>
             </td>
             <td>
-              <%= link_to 'Editar', edit_product_path(product), class: "btn btn-warning text-white btn-sm me-2 rounded-pill" %>
-              <%= link_to 'Eliminar', product_path(product), method: :delete, data: { confirm: '¿Estás seguro?' }, class: "btn btn-danger text-white btn-sm rounded-pill" %>
+              <%= link_to product_path(product), class: "btn btn-outline-primary btn-sm me-2 rounded-pill", title: 'Ver Producto', data: { toggle: 'tooltip', placement: 'top' } do %>
+                <i class="fas fa-eye"></i>
+              <% end %>
+              <%= link_to edit_product_path(product), class: "btn btn-secondary text-white btn-sm me-2 rounded-pill", title: 'Editar', data: { toggle: 'tooltip', placement: 'top' } do %>
+                <i class="fas fa-edit"></i>
+              <% end %>
+              <button class="btn btn-danger text-white btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal" data-product-id="<%= product.id %>" title="Eliminar" data-bs-toggle="tooltip" data-bs-placement="top">
+                <i class="fas fa-trash-alt"></i>
+              </button>
             </td>
           </tr>
         <% end %>
       </tbody>
     </table>
   </div>
-</div>
 
-
+  <!-- Modal de confirmación de eliminación -->
+  <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar eliminación</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ¿Estás seguro de que deseas eliminar este producto?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary rounded-pill" data-bs-dismiss="modal">Cancelar</button>
+          <%= form_with url: '', method: :delete, local: true, id: 'confirmDeleteForm' do %>
+            <%= submit_tag 'Eliminar', class: 'btn btn-danger rounded-pill' %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
