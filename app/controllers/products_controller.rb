@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :authenticate_user!, except: [:index, :show, :catalog]
+  before_action :authenticate_user!, except: %i[index show catalog]
 
   def index
     @products = Product.all
@@ -11,10 +11,6 @@ class ProductsController < ApplicationController
 
   def show
     @product = Product.find(params[:id])
-  end
-
-  def catalog
-    @products = Product.all
   end
 
   def new
