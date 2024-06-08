@@ -1,1 +1,30 @@
-<h1>Hola mundo</h1>
+<div class="container-fluid mt-5 px-5">
+  <!-- Título y subtítulo -->
+  <div class="text-center mb-4">
+    <h1 class="display-4 fw-bold">Catálogo de Productos</h1>
+    <p class="lead">Explora nuestra exclusiva colección de ropa y accesorios.</p>
+  </div>
+
+  <!-- Catálogo de productos -->
+  <div class="row">
+    <% @products.each do |product| %>
+      <div class="col-md-4 col-sm-6 mb-4">
+        <div class="card h-100 card-rounded bg-white">
+          <%= image_tag product.image_url, class: "card-img-top fixed-size-image", alt: product.model %>
+          <div class="card-body">
+            <h5 class="card-title"><%= product.model %></h5>
+            <p class="card-text"><%= product.description %></p>
+            <p class="card-text">Marca: <%= product.brand %></p>
+            <p class="card-text">Lanzamiento: <%= product.release_date.strftime("%d/%m/%Y") %></p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item bg-white"><%= number_to_currency(product.price) %></li>
+          </ul>
+          <div class="card-body">
+            <a href="<%= product_path(product) %>" class="btn btn-primary rounded-pill">Comprar Producto</a>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
