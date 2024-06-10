@@ -30,8 +30,8 @@
       <%= form.date_field :release_date, class: "form-control" %>
     </div>
     <div class="mb-3">
-      <%= form.label :available %>
-      <%= form.check_box :available %>
+      <%= form.label :quantity_available %>
+      <%= form.number_field :quantity_available, class: "form-control", max: 999, maxlength: 3 %>
     </div>
     <div class="mb-3">
       <%= form.submit "Crear Producto", class: "btn btn-primary rounded-pill" %>

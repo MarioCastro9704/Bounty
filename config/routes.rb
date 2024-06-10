@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :products do
     collection do
       get 'catalog'
+      get 'my_products', to: 'products#index', defaults: { mine: true }
     end
   end
   resources :purchases do

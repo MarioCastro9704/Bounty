@@ -1,10 +1,14 @@
 class ProductsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:catalog]
   before_action :set_product, only: [:show, :edit, :update, :destroy]
-  before_action :authorize_user!, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_user!, only: [:edit, :update, :destroy]
 
   def index
     @products = current_user.products
+  end
+
+  def catalog
+    @products = Product.all
   end
 
   def show
@@ -47,7 +51,7 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    params.require(:product).permit(:category, :price, :description, :model, :brand, :image_url, :release_date, :available)
+    params.require(:product).permit(:category, :price, :description, :model, :brand, :image_url, :release_date, :quantity_available)
   end
 
   def authorize_user!
