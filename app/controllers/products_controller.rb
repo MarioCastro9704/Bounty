@@ -1,16 +1,13 @@
 class ProductsController < ApplicationController
-  before_action :authenticate_user!, except: %i[index show catalog]
+  before_action :authenticate_user!
+  before_action :set_product, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_user!, only: [:show, :edit, :update, :destroy]
 
   def index
-    @products = Product.all
-  end
-
-  def catalog
-    @products = Product.all
+    @products = current_user.products
   end
 
   def show
-    @product = Product.find(params[:id])
   end
 
   def new
@@ -22,32 +19,38 @@ class ProductsController < ApplicationController
     if @product.save
       redirect_to @product, notice: 'Producto creado exitosamente.'
     else
-      render 'new'
+      render :new
     end
   end
 
   def edit
-    @product = Product.find(params[:id])
   end
 
   def update
-    @product = Product.find(params[:id])
     if @product.update(product_params)
-      redirect_to products_path, notice: 'Producto actualizado exitosamente.'
+      redirect_to @product, notice: 'Producto actualizado exitosamente.'
     else
-      render 'edit'
+      render :edit
     end
   end
 
   def destroy
-    @product = Product.find(params[:id])
     @product.destroy
-    redirect_to products_path, notice: 'Producto eliminado exitosamente.'
+    redirect_to products_url, notice: 'Producto eliminado exitosamente.'
   end
 
   private
 
+  def set_product
+    @product = current_user.products.find_by(id: params[:id])
+    redirect_to products_path, alert: 'Producto no encontrado' if @product.nil?
+  end
+
   def product_params
     params.require(:product).permit(:category, :price, :description, :model, :brand, :image_url, :release_date, :available)
+  end
+
+  def authorize_user!
+    redirect_to products_path, alert: 'No autorizado' unless @product.user == current_user
   end
 end
