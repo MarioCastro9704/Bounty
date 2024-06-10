@@ -2,28 +2,27 @@
   <h2>Editar Producto</h2>
   <%= form_with model: @product, local: true do |form| %>
     <div class="mb-3">
-      <%= form.label :category %>
-      <%= form.text_field :category, class: "form-control" %>
-    </div>
-    <div class="mb-3">
-      <%= form.label :price %>
-      <%= form.number_field :price, step: 0.01, class: "form-control" %>
-    </div>
-    <div class="mb-3">
-      <%= form.label :description %>
-      <%= form.text_area :description, class: "form-control" %>
-    </div>
-    <div class="mb-3">
       <%= form.label :model %>
       <%= form.text_field :model, class: "form-control" %>
     </div>
     <div class="mb-3">
-      <%= form.label :brand %>
-      <%= form.text_field :brand, class: "form-control" %>
+      <%= form.label :product_type, "Tipo de Producto" %><br>
+      <div class="btn-group" role="group" aria-label="Tipo de Producto">
+        <% ['Ropa', 'Zapatillas'].each do |type| %>
+          <input type="radio" class="btn-check" name="product[product_type]" id="product_type_<%= type %>" value="<%= type %>" autocomplete="off" <%= 'checked' if @product.product_type == type %>>
+          <label class="btn btn-outline-primary rounded-pill mx-1" for="product_type_<%= type %>"><%= type %></label>
+        <% end %>
+      </div>
     </div>
     <div class="mb-3">
-      <%= form.label :image_url %>
-      <%= form.text_field :image_url, class: "form-control" %>
+      <%= form.label :size, "Talla" %><br>
+      <div id="size_radio_buttons" class="btn-group" role="group" aria-label="Talla">
+        <!-- The radio buttons will be dynamically added here -->
+      </div>
+    </div>
+    <div class="mb-3">
+      <%= form.label :brand %>
+      <%= form.text_field :brand, class: "form-control" %>
     </div>
     <div class="mb-3">
       <%= form.label :release_date %>
@@ -31,10 +30,58 @@
     </div>
     <div class="mb-3">
       <%= form.label :quantity_available %>
-      <%= form.number_field :quantity_available, class: "form-control", max: 999, maxlength: 3 %>
+      <%= form.number_field :quantity_available, class: "form-control", max: 9999, maxlength: 4 %>
+    </div>
+    <div class="mb-3">
+      <%= form.label :description %>
+      <%= form.text_area :description, class: "form-control" %>
     </div>
     <div class="mb-3">
       <%= form.submit "Actualizar Producto", class: "btn btn-primary rounded-pill" %>
     </div>
   <% end %>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const productTypeSelect = document.querySelectorAll('input[name="product[product_type]"]');
+  const sizeRadioButtons = document.getElementById('size_radio_buttons');
+
+  const sizes = {
+    'Ropa': ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+    'Zapatillas': ['6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12']
+  };
+
+  function updateSizeOptions() {
+    const selectedType = document.querySelector('input[name="product[product_type]"]:checked').value;
+    const sizeOptions = sizes[selectedType] || [];
+
+    sizeRadioButtons.innerHTML = '';
+    sizeOptions.forEach(function(size) {
+      const input = document.createElement('input');
+      input.type = 'radio';
+      input.className = 'btn-check';
+      input.name = 'product[size]';
+      input.id = size;
+      input.value = size;
+      input.autocomplete = 'off';
+      if (size === '<%= @product.size %>') {
+        input.checked = true;
+      }
+
+      const label = document.createElement('label');
+      label.className = 'btn btn-outline-primary rounded-pill mx-1';
+      label.htmlFor = size;
+      label.textContent = size;
+
+      sizeRadioButtons.appendChild(input);
+      sizeRadioButtons.appendChild(label);
+    });
+  }
+
+  productTypeSelect.forEach(button => button.addEventListener('change', updateSizeOptions));
+
+  // Trigger the change event manually to update size options on page load
+  document.querySelector('input[name="product[product_type]"]:checked').dispatchEvent(new Event('change'));
+});
+</script>

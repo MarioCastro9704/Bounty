@@ -1,6 +1,6 @@
 <div class="container-fluid mt-5 px-5">
   <div class="text-center mb-4">
-    <h1> Detalle de <%= @product.category %></h1>
+    <h1>Detalle de <%= @product.product_type %></h1>
   </div>
 
   <div class="card mb-3 w-100">
@@ -18,6 +18,9 @@
           <strong style="font-size: 30px;" class="card-title"><%= @product.model %></strong>
           <p class="card-text"><%= @product.brand %></p>
           <p class="card-text"><%= @product.description %></p>
+          <p class="card-text"><strong>Talla:</strong> <%= @product.size %></p>
+          <p class="card-text"><strong>Precio:</strong> <%= number_to_currency(@product.price) %></p>
+          <p class="card-text"><strong>Cantidad Disponible:</strong> <%= @product.quantity_available %></p>
         </div>
 
         <div class="card-footer">
