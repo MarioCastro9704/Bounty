@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: [:show, :catalog]
   before_action :set_product, only: [:show, :edit, :update, :destroy]
   before_action :authorize_user!, only: [:edit, :update, :destroy]
 
@@ -12,6 +12,7 @@ class ProductsController < ApplicationController
   end
 
   def show
+    @product = Product.find(params[:id])
   end
 
   def new
@@ -46,8 +47,7 @@ class ProductsController < ApplicationController
   private
 
   def set_product
-    @product = current_user.products.find_by(id: params[:id])
-    redirect_to products_path, alert: 'Producto no encontrado' if @product.nil?
+    @product = Product.find(params[:id])
   end
 
   def product_params

@@ -1,16 +1,16 @@
 <div class="card mb-3 shadow-sm card-rounded" style="width: 24rem;">
-  <img src="<%= product.image_url %>" class="card-img-top" alt="<%= product.model %>" style="height: 180px; object-fit: cover;">
+  <img src="<%= product.image_url %>" class="card-img-top fixed-size-image" alt="<%= product.model %>" style="height: 180px; object-fit: cover;">
   <div class="card-body d-flex flex-column">
     <h5 class="card-title text-center"><%= product.model %></h5>
     <div class="d-flex justify-content-center mb-3">
-      <span class="badge bg-warning text-dark"><i class="fas fa-shoe-prints"></i> <%= product.product_type %></span>
+      <span class="badge rounded-pill text-bg-primary"><i class="fa-solid fa-wand-sparkles"></i> <%= product.product_type %></span>
     </div>
     <p class="card-text text-center flex-grow-1"><%= product.description %></p>
     <div class="d-flex justify-content-center mb-3">
       <span class="badge bg-light text-dark">Stock: <%= product.quantity_available %></span>
       <span class="badge bg-light text-dark">Talla: <%= product.size %></span>
       <span class="badge bg-light text-dark">Marca: <%= product.brand %></span>
-      <span class="badge bg-light text-dark">Lanzamiento: <%= product.release_date.year %></span>
+      <span class="badge bg-light text-dark">Año: <%= product.release_date.year %></span>
     </div>
     <h5 class="card-price text-center mb-3"><%= number_to_currency(product.price) %></h5>
     <a href="<%= product_path(product) %>" class="btn btn-outline-secondary rounded-pill w-100 mb-2">Ver Producto</a>
