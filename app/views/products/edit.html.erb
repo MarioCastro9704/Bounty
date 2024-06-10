@@ -1,87 +1,83 @@
 <div class="container mt-5">
-  <h2>Editar Producto</h2>
-  <%= form_with model: @product, local: true do |form| %>
-    <div class="mb-3">
-      <%= form.label :model %>
-      <%= form.text_field :model, class: "form-control" %>
-    </div>
-    <div class="mb-3">
-      <%= form.label :product_type, "Tipo de Producto" %><br>
-      <div class="btn-group" role="group" aria-label="Tipo de Producto">
-        <% ['Ropa', 'Zapatillas'].each do |type| %>
-          <input type="radio" class="btn-check" name="product[product_type]" id="product_type_<%= type %>" value="<%= type %>" autocomplete="off" <%= 'checked' if @product.product_type == type %>>
-          <label class="btn btn-outline-primary rounded-pill mx-1" for="product_type_<%= type %>"><%= type %></label>
+  <div class="row">
+    <div class="col-md-7">
+      <h2>Editar Producto</h2>
+      <%= form_with model: @product, local: true, id: "product_form" do |form| %>
+        <% if @product.errors.any? %>
+          <div class="alert alert-danger">
+            <h4>Errores</h4>
+            <ul>
+              <% @product.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
         <% end %>
+        <div class="mb-3">
+          <%= form.label :model %>
+          <%= form.text_field :model, class: "form-control", id: "product_model" %>
+        </div>
+        <div class="mb-3">
+          <%= form.label :product_type, "Tipo de Producto" %><br>
+          <div class="btn-group" role="group" aria-label="Tipo de Producto">
+            <% ['Ropa', 'Zapatillas'].each do |type| %>
+              <input type="radio" class="btn-check" name="product[product_type]" id="product_type_<%= type %>" value="<%= type %>" autocomplete="off" <%= 'checked' if @product.product_type == type %>>
+              <label class="btn btn-outline-primary rounded-pill mx-1" for="product_type_<%= type %>"><%= type %></label>
+            <% end %>
+          </div>
+        </div>
+        <div class="mb-3">
+          <%= form.label :size, "Talla" %><br>
+          <div id="size_radio_buttons" class="btn-group" role="group" aria-label="Talla">
+            <!-- The radio buttons will be dynamically added here -->
+          </div>
+        </div>
+        <div class="mb-3">
+          <%= form.label :brand %>
+          <%= form.text_field :brand, class: "form-control", id: "product_brand" %>
+        </div>
+        <div class="mb-3">
+          <%= form.label :release_date %>
+          <%= form.date_field :release_date, class: "form-control", id: "product_release_date" %>
+        </div>
+        <div class="mb-3">
+          <%= form.label :quantity_available %>
+          <%= form.number_field :quantity_available, class: "form-control", max: 9999, maxlength: 4, id: "product_quantity_available" %>
+        </div>
+        <div class="mb-3">
+          <%= form.label :description %>
+          <%= form.text_area :description, class: "form-control", id: "product_description" %>
+        </div>
+        <div class="mb-3">
+          <%= form.label :image_url %>
+          <%= form.text_field :image_url, class: "form-control", id: "product_image_url" %>
+        </div>
+        <div class="mb-3">
+          <%= form.submit "Actualizar Producto", class: "btn btn-primary rounded-pill" %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Preview card -->
+    <div class="col-md-5">
+      <h2>Previsualización del Producto</h2>
+      <div class="card mb-3 w-100">
+        <div class="row g-0">
+          <div class="col-md-12">
+            <img id="preview_image" src="#" class="img-fluid rounded-start product-image fixed-size-image" alt="Previsualización" style="width: 100%; height: auto; max-height: 300px; object-fit: cover; display: none;">
+          </div>
+          <div class="col-md-12 d-flex flex-column">
+            <div class="card-body flex-grow-1">
+              <h5 id="preview_model" class="card-title"><%= @product.model %></h5>
+              <p id="preview_release_date" class="card-text"><%= @product.release_date %></p>
+              <p id="preview_brand" class="card-text"><%= @product.brand %></p>
+              <p id="preview_price" class="card-text"><%= number_to_currency(@product.price) %></p>
+              <p id="preview_quantity_available" class="card-text"><%= @product.quantity_available %></p>
+              <p id="preview_description" class="card-text"><%= @product.description %></p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="mb-3">
-      <%= form.label :size, "Talla" %><br>
-      <div id="size_radio_buttons" class="btn-group" role="group" aria-label="Talla">
-        <!-- The radio buttons will be dynamically added here -->
-      </div>
-    </div>
-    <div class="mb-3">
-      <%= form.label :brand %>
-      <%= form.text_field :brand, class: "form-control" %>
-    </div>
-    <div class="mb-3">
-      <%= form.label :release_date %>
-      <%= form.date_field :release_date, class: "form-control" %>
-    </div>
-    <div class="mb-3">
-      <%= form.label :quantity_available %>
-      <%= form.number_field :quantity_available, class: "form-control", max: 9999, maxlength: 4 %>
-    </div>
-    <div class="mb-3">
-      <%= form.label :description %>
-      <%= form.text_area :description, class: "form-control" %>
-    </div>
-    <div class="mb-3">
-      <%= form.submit "Actualizar Producto", class: "btn btn-primary rounded-pill" %>
-    </div>
-  <% end %>
+  </div>
 </div>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-  const productTypeSelect = document.querySelectorAll('input[name="product[product_type]"]');
-  const sizeRadioButtons = document.getElementById('size_radio_buttons');
-
-  const sizes = {
-    'Ropa': ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-    'Zapatillas': ['6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12']
-  };
-
-  function updateSizeOptions() {
-    const selectedType = document.querySelector('input[name="product[product_type]"]:checked').value;
-    const sizeOptions = sizes[selectedType] || [];
-
-    sizeRadioButtons.innerHTML = '';
-    sizeOptions.forEach(function(size) {
-      const input = document.createElement('input');
-      input.type = 'radio';
-      input.className = 'btn-check';
-      input.name = 'product[size]';
-      input.id = size;
-      input.value = size;
-      input.autocomplete = 'off';
-      if (size === '<%= @product.size %>') {
-        input.checked = true;
-      }
-
-      const label = document.createElement('label');
-      label.className = 'btn btn-outline-primary rounded-pill mx-1';
-      label.htmlFor = size;
-      label.textContent = size;
-
-      sizeRadioButtons.appendChild(input);
-      sizeRadioButtons.appendChild(label);
-    });
-  }
-
-  productTypeSelect.forEach(button => button.addEventListener('change', updateSizeOptions));
-
-  // Trigger the change event manually to update size options on page load
-  document.querySelector('input[name="product[product_type]"]:checked').dispatchEvent(new Event('change'));
-});
-</script>

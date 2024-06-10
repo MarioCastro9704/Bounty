@@ -10,27 +10,12 @@
   </div>
 </div>
 
-
 <div class="container my-5">
   <h2 class="mb-4">Últimos Lanzamientos</h2>
   <div class="row">
     <% @latest_releases.each do |product| %>
       <div class="col-md-4">
-        <div class="card mb-4 card-rounded bg-white" style="width: 24rem;">
-          <%= image_tag product.image_url, class: "card-img-top fixed-size-image", alt: product.model %>
-          <div class="card-body">
-            <h5 class="card-title"><%= product.model %></h5>
-            <p class="card-text"><%= product.description %></p>
-            <p class="card-text">Marca: <%= product.brand %></p>
-            <p class="card-text">Lanzamiento: <%= product.release_date.strftime("%d/%m/%Y") %></p>
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item bg-white"><%= number_to_currency(product.price) %></li>
-          </ul>
-          <div class="card-body">
-            <a href="<%= product_path(product) %>" class="btn btn-primary rounded-pill">Comprar Producto</a>
-          </div>
-        </div>
+        <%= render partial: 'shared/product_card', locals: { product: product } %>
       </div>
     <% end %>
   </div>
@@ -41,21 +26,7 @@
   <div class="row">
     <% @recently_added.each do |product| %>
       <div class="col-md-4">
-        <div class="card mb-4 card-rounded bg-white" style="width: 24rem;">
-          <%= image_tag product.image_url, class: "card-img-top fixed-size-image", alt: product.model %>
-          <div class="card-body">
-            <h5 class="card-title"><%= product.model %></h5>
-            <p class="card-text"><%= product.description %></p>
-            <p class="card-text">Marca: <%= product.brand %></p>
-            <p class="card-text">Lanzamiento: <%= product.release_date.strftime("%d/%m/%Y") %></p>
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item bg-white"><%= number_to_currency(product.price) %></li>
-          </ul>
-          <div class="card-body">
-            <a href="<%= product_path(product) %>" class="btn btn-primary rounded-pill">Comprar Producto</a>
-          </div>
-        </div>
+        <%= render partial: 'shared/product_card', locals: { product: product } %>
       </div>
     <% end %>
   </div>
@@ -66,21 +37,7 @@
   <div class="row">
     <% @best_sellers.each do |product| %>
       <div class="col-md-4">
-        <div class="card mb-4 card-rounded bg-white" style="width: 24rem;">
-          <%= image_tag product.image_url, class: "card-img-top fixed-size-image", alt: product.model %>
-          <div class="card-body">
-            <h5 class="card-title"><%= product.model %></h5>
-            <p class="card-text"><%= product.description %></p>
-            <p class="card-text">Marca: <%= product.brand %></p>
-            <p class="card-text">Lanzamiento: <%= product.release_date.strftime("%d/%m/%Y") %></p>
-          </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item bg-white"><%= number_to_currency(product.price) %></li>
-          </ul>
-          <div class="card-body">
-            <a href="<%= product_path(product) %>" class="btn btn-primary rounded-pill">Comprar Producto</a>
-          </div>
-        </div>
+        <%= render partial: 'shared/product_card', locals: { product: product } %>
       </div>
     <% end %>
   </div>
