@@ -1,69 +1,87 @@
 document.addEventListener("DOMContentLoaded", function() {
-  const productForm = document.getElementById("product_form");
-  if (!productForm) {
-    return;
+  const productModel = document.getElementById("product_model");
+  const productBrand = document.getElementById("product_brand");
+  const productReleaseDate = document.getElementById("product_release_date");
+  const productQuantityAvailable = document.getElementById("product_quantity_available");
+  const productDescription = document.getElementById("product_description");
+  const productImageUrl = document.getElementById("product_image_url");
+  const productPrice = document.getElementById("product_price");
+  const productTypeRadios = document.querySelectorAll('input[name="product[product_type]"]');
+
+  if (productModel) productModel.addEventListener("input", updatePreview);
+  if (productBrand) productBrand.addEventListener("input", updatePreview);
+  if (productReleaseDate) productReleaseDate.addEventListener("input", updatePreview);
+  if (productQuantityAvailable) productQuantityAvailable.addEventListener("input", updatePreview);
+  if (productDescription) {
+    productDescription.addEventListener("input", updateCharacterCount);
+    productDescription.addEventListener("input", updatePreview);
   }
+  if (productImageUrl) productImageUrl.addEventListener("input", updatePreview);
+  if (productPrice) productPrice.addEventListener("input", function() { formatPrice(this); });
 
-  const previewImage = document.getElementById("preview_image");
-  const previewModel = document.getElementById("preview_model");
-  const previewReleaseDate = document.getElementById("preview_release_date");
-  const previewBrand = document.getElementById("preview_brand");
-  const previewQuantityAvailable = document.getElementById("preview_quantity_available");
-  const previewDescription = document.getElementById("preview_description");
-  const productTypeSelect = document.querySelectorAll('input[name="product[product_type]"]');
-  const sizeRadioButtons = document.getElementById('size_radio_buttons');
+  productTypeRadios.forEach(radio => {
+    radio.addEventListener("change", updateSizeOptions);
+    radio.addEventListener("change", updatePreview);
+  });
 
+  updateSizeOptions();
+  updateCharacterCount();
+  updatePreview();
+});
+
+function updateSizeOptions() {
+  const selectedType = document.querySelector('input[name="product[product_type]"]:checked')?.value;
   const sizes = {
     'Ropa': ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
     'Zapatillas': ['6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12']
   };
+  const selectedSizes = sizes[selectedType] || [];
+  const sizeRadioButtons = document.getElementById("size_radio_buttons");
 
-  function updateSizeOptions() {
-    const selectedType = document.querySelector('input[name="product[product_type]"]:checked');
-    if (!selectedType) return;
-
-    const sizeOptions = sizes[selectedType.value] || [];
-
+  if (sizeRadioButtons) {
     sizeRadioButtons.innerHTML = '';
-    sizeOptions.forEach(function(size) {
+
+    selectedSizes.forEach(size => {
       const input = document.createElement('input');
       input.type = 'radio';
-      input.className = 'btn-check';
       input.name = 'product[size]';
-      input.id = size;
+      input.id = `size_${size}`;
       input.value = size;
-      input.autocomplete = 'off';
+      input.classList.add('btn-check');
+      input.onchange = updatePreview;
+      sizeRadioButtons.appendChild(input);
 
       const label = document.createElement('label');
-      label.className = 'btn btn-outline-primary rounded-pill mx-1';
-      label.htmlFor = size;
+      label.htmlFor = `size_${size}`;
+      label.classList.add('btn', 'btn-outline-primary', 'rounded-pill', 'mx-1');
       label.textContent = size;
-
-      sizeRadioButtons.appendChild(input);
       sizeRadioButtons.appendChild(label);
     });
   }
+}
 
-  function updatePreview() {
-    previewModel.textContent = document.getElementById("product_model").value;
-    previewReleaseDate.textContent = "Fecha: " + document.getElementById("product_release_date").value;
-    previewBrand.textContent = "Ubicación: " + document.getElementById("product_brand").value;
-    previewQuantityAvailable.textContent = "Cantidad Disponible: " + document.getElementById("product_quantity_available").value;
-    previewDescription.textContent = document.getElementById("product_description").value;
-
-    const imageUrl = document.getElementById("product_image_url").value;
-    if (imageUrl) {
-      previewImage.src = imageUrl;
-      previewImage.style.display = "block";
-    } else {
-      previewImage.style.display = "none";
+function updateCharacterCount() {
+  const descriptionInput = document.getElementById("product_description");
+  if (descriptionInput) {
+    const maxLength = descriptionInput.getAttribute("maxlength");
+    const currentLength = descriptionInput.value.length;
+    const remaining = maxLength - currentLength;
+    const counter = document.getElementById("description_counter");
+    if (counter) {
+      counter.textContent = `${remaining} caracteres restantes`;
     }
   }
+}
 
-  // Initialize the preview and size options on page load
+function formatPrice(input) {
+  let value = input.value.replace(/[^\d,]/g, '');  // Permitir solo dígitos y comas
+  if (value.includes(',')) {
+    let parts = value.split(',');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    value = parts.join(',');
+  } else {
+    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+  input.value = `$${value}`;
   updatePreview();
-  updateSizeOptions();
-
-  productForm.addEventListener("input", updatePreview);
-  productTypeSelect.forEach(button => button.addEventListener('change', updateSizeOptions));
-});
+}
