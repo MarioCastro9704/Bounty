@@ -41,8 +41,15 @@
           <%= form.date_field :release_date, class: "form-control", id: "product_release_date" %>
         </div>
         <div class="mb-3">
-          <%= form.label :quantity_available %>
+          <%= form.label :stock %>
           <%= form.number_field :quantity_available, class: "form-control", max: 9999, maxlength: 4, id: "product_quantity_available" %>
+        </div>
+        <div class="mb-3">
+          <%= form.label :price %>
+          <div class="input-group">
+            <span class="input-group-text">$</span>
+            <%= form.number_field :price, step: 0.01, min: 0, class: 'form-control' %>
+          </div>
         </div>
         <div class="mb-3">
           <%= form.label :description %>
