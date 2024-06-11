@@ -12,7 +12,10 @@ Rails.application.routes.draw do
       get 'catalog'
       get 'my_products', to: 'products#index', defaults: { mine: true }
     end
+    resources :reviews, only: [:create]
+    resources :ratings, only: [:create]
   end
+
   resources :purchases do
     collection do
       get 'checkout/:product_id', to: 'purchases#checkout', as: 'checkout'
