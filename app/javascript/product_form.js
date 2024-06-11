@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("turbo:load", function() {
   const productModel = document.getElementById("product_model");
   const productBrand = document.getElementById("product_brand");
   const productReleaseDate = document.getElementById("product_release_date");
