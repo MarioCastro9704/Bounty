@@ -12,11 +12,20 @@ Rails.application.routes.draw do
       get 'catalog'
       get 'my_products', to: 'products#index', defaults: { mine: true }
     end
+    resources :reviews, only: [:create]
+    resources :ratings, only: [:create]
   end
+
   resources :purchases do
     collection do
-      get 'checkout/:product_id', to: 'purchases#checkout', as: 'checkout'
+      get 'checkout', to: 'purchases#checkout', as: 'checkout'
     end
+  end
+
+  resource :cart, only: [:show] do
+    post 'add/:product_id', to: 'carts#add', as: 'add_to'
+    post 'remove/:product_id', to: 'carts#remove', as: 'remove_from'
+    patch 'update_item/:id', to: 'carts#update', as: 'update_item'
   end
 
   # Health check route

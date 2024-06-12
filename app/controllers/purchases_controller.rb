@@ -1,5 +1,5 @@
 class PurchasesController < ApplicationController
-  before_action :set_product, only: %i[checkout]
+  before_action :set_cart, only: [:checkout, :create]
 
   def index
     @purchases = Purchase.all
@@ -20,9 +20,10 @@ class PurchasesController < ApplicationController
   def create
     @purchase = Purchase.new(purchase_params)
     if @purchase.save
+      session[:cart_id] = nil # Limpiar el carrito después de la compra
       redirect_to @purchase
     else
-      render 'new'
+      render 'checkout'
     end
   end
 
@@ -47,11 +48,11 @@ class PurchasesController < ApplicationController
 
   private
 
-  def set_product
-    @product = Product.find(params[:product_id])
+  def set_cart
+    @cart = Cart.find(params[:cart_id])
   end
 
   def purchase_params
-    params.require(:purchase).permit(:user_id, :product_id, :date, :status)
+    params.require(:purchase).permit(:user_id, :address, :payment_method, :cart_id)
   end
 end

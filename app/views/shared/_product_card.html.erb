@@ -14,6 +14,6 @@
     </div>
     <h5 class="card-price text-center mb-3"><%= number_to_currency(product.price) %></h5>
     <a href="<%= product_path(product) %>" class="btn btn-outline-secondary rounded-pill w-100 mb-2">Ver Producto</a>
-    <a href="<%= checkout_purchases_path(product_id: product.id) %>" class="btn btn-primary rounded-pill w-100">Comprar Producto</a>
+    <%= button_to 'Comprar', add_to_cart_path(product), method: :post, class: "btn btn-primary rounded-pill w-100 mb-2" %>
   </div>
 </div>
