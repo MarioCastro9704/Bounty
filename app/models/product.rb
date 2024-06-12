@@ -21,6 +21,8 @@ class Product < ApplicationRecord
   private
 
   def sanitize_price
-    self.price = price.to_s.gsub(/[^\d,]/, '').gsub(',', '.').to_f if price.present?
+    if price.present?
+      self.price = price.to_s.gsub(/[^\d,]/, '').gsub(',', '.').to_f
+    end
   end
 end

@@ -17,7 +17,7 @@ document.addEventListener("turbo:load", function() {
     productDescription.addEventListener("input", updatePreview);
   }
   if (productImageUrl) productImageUrl.addEventListener("input", updatePreview);
-  if (productPrice) productPrice.addEventListener("input", function() { formatPrice(this); });
+  if (productPrice) productPrice.addEventListener("input", updatePreview);
 
   productTypeRadios.forEach(radio => {
     radio.addEventListener("change", updateSizeOptions);
@@ -71,17 +71,4 @@ function updateCharacterCount() {
       counter.textContent = `${remaining} caracteres restantes`;
     }
   }
-}
-
-function formatPrice(input) {
-  let value = input.value.replace(/[^\d,]/g, '');  // Permitir solo dígitos y comas
-  if (value.includes(',')) {
-    let parts = value.split(',');
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    value = parts.join(',');
-  } else {
-    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  }
-  input.value = `$${value}`;
-  updatePreview();
 }

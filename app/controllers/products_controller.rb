@@ -21,6 +21,7 @@ class ProductsController < ApplicationController
 
   def create
     @product = current_user.products.build(product_params)
+    Rails.logger.debug "Product Params: #{product_params.inspect}" # Debug line
     if @product.save
       redirect_to @product, notice: 'Producto creado exitosamente.'
     else
@@ -32,6 +33,7 @@ class ProductsController < ApplicationController
   end
 
   def update
+    Rails.logger.debug "Product Params: #{product_params.inspect}" # Debug line
     if @product.update(product_params)
       redirect_to @product, notice: 'Producto actualizado exitosamente.'
     else
