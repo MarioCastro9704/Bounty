@@ -3,6 +3,7 @@ class Product < ApplicationRecord
   has_many :purchases
   has_many :reviews, dependent: :destroy
   has_many :ratings, dependent: :destroy
+  has_many :cart_items, dependent: :destroy
 
   before_validation :sanitize_price
 

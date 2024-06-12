@@ -26,9 +26,7 @@
         <div class="card-footer">
           <p class="card-text"><small class="text-body-secondary">Fecha de Lanzamiento: <%= @product.release_date %></small></p>
           <% if user_signed_in? %>
-            <%= link_to checkout_purchases_path(product_id: @product.id), class: "btn btn-primary my-2 mx-1 rounded-pill" do %>
-              Comprar
-            <% end %>
+            <%= button_to 'Comprar', add_to_cart_path(product_id: @product.id), method: :post, class: "btn btn-primary my-2 mx-1 rounded-pill" %>
           <% else %>
             <%= link_to new_user_session_path, class: "btn btn-outline-primary me-2 rounded-pill" do %>
               Login
@@ -41,6 +39,7 @@
       </div>
     </div>
   </div>
+</div>
 
   <!-- Section for Reviews and Ratings -->
   <div class="reviews-section mt-5">

@@ -18,8 +18,14 @@ Rails.application.routes.draw do
 
   resources :purchases do
     collection do
-      get 'checkout/:product_id', to: 'purchases#checkout', as: 'checkout'
+      get 'checkout', to: 'purchases#checkout', as: 'checkout'
     end
+  end
+
+  resource :cart, only: [:show] do
+    post 'add/:product_id', to: 'carts#add', as: 'add_to'
+    post 'remove/:product_id', to: 'carts#remove', as: 'remove_from'
+    patch 'update_item/:id', to: 'carts#update', as: 'update_item'
   end
 
   # Health check route
