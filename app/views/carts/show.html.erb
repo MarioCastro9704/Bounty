@@ -7,7 +7,11 @@
       <div class="card mb-3 shadow-sm" style="width: 100%;">
         <div class="row g-0">
           <div class="col-md-4">
-            <img src="<%= item.product.image_url %>" class="img-fluid rounded-start" alt="<%= item.product.model %>">
+            <% if item.product.image.attached? %>
+              <%= cl_image_tag item.product.image.key, class: "img-fluid rounded-start", alt: item.product.model %>
+            <% else %>
+              <%= image_tag 'default_image.jpg', class: "img-fluid rounded-start", alt: item.product.model %>
+            <% end %>
           </div>
           <div class="col-md-8">
             <div class="card-body">

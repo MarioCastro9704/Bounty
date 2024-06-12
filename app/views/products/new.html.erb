@@ -54,8 +54,8 @@
           <small id="description_counter" class="form-text text-muted">120 caracteres restantes</small>
         </div>
         <div class="mb-3">
-          <%= form.label :image_url, "URL de la imagen" %>
-          <%= form.text_field :image_url, class: "form-control", id: "product_image_url" %>
+          <%= form.label :image, "Imagen del Producto" %>
+          <%= form.file_field :image, class: "form-control", id: "product_image" %>
         </div>
         <%= form.submit "Guardar", class: "btn btn-primary" %>
       <% end %>
@@ -63,7 +63,7 @@
     <div class="col-md-5">
       <h2>Previsualización</h2>
       <div class="card mb-3 shadow-sm card-rounded" style="width: 24rem;">
-        <img src="" id="preview_image" class="card-img-top fixed-size-image" style="height: 180px; object-fit: cover; display: none;">
+        <img src="<%= asset_path('default_image.jpg') %>" id="preview_image" class="card-img-top fixed-size-image" style="width: 100%; height: 300px; object-fit: cover;">
         <div class="card-body d-flex flex-column">
           <h5 id="preview_model" class="card-title text-center"></h5>
           <div class="d-flex justify-content-center mb-3">

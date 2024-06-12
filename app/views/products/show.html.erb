@@ -6,10 +6,10 @@
   <div class="card mb-3 w-100">
     <div class="row g-0">
       <div class="col-md-6">
-        <% if @product.image_url.present? %>
-          <img src="<%= @product.image_url %>" class="img-fluid rounded-start product-image fixed-size-image" alt="<%= @product.model %>" style="width: 100%; height: auto; max-height: 600px; object-fit: cover;">
+        <% if @product.image.attached? %>
+          <%= cl_image_tag @product.image.key, class: "img-fluid rounded-start product-image fixed-size-image", alt: @product.model, style: "width: 100%; height: auto; max-height: 600px; object-fit: cover;" %>
         <% else %>
-          <span class="placeholder-icon">No Image</span>
+          <%= image_tag 'default_image.jpg', class: "img-fluid rounded-start product-image fixed-size-image", alt: @product.model, style: "width: 100%; height: auto; max-height: 600px; object-fit: cover;" %>
         <% end %>
       </div>
 

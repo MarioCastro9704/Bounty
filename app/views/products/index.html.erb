@@ -32,10 +32,10 @@
           <tr>
             <td><%= product.id %></td>
             <td>
-              <% if product.image_url.present? %>
-                <%= image_tag product.image_url, class: "img-thumbnail card-rounded", style: "width: 50px; height: 50px;" %>
+              <% if product.image.attached? %>
+                <%= cl_image_tag product.image.key, class: "img-thumbnail card-rounded", style: "width: 50px; height: 50px; object-fit: cover;" %>
               <% else %>
-                <span class="placeholder-icon">No Image</span>
+                <%= image_tag 'default_image.jpg', class: "img-thumbnail card-rounded", style: "width: 50px; height: 50px; object-fit: cover;" %>
               <% end %>
             </td>
             <td><%= product.model %></td>

@@ -4,6 +4,7 @@ class Product < ApplicationRecord
   has_many :reviews, dependent: :destroy
   has_many :ratings, dependent: :destroy
   has_many :cart_items, dependent: :destroy
+  has_one_attached :image
 
   before_validation :sanitize_price
 
