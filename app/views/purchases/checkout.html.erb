@@ -5,7 +5,11 @@
       <h3>Detalles del Pedido</h3>
       <% @cart.cart_items.each do |item| %>
         <div class="card mb-3">
-          <%= image_tag item.product.image_url, class: "card-img-top" %>
+          <% if item.product.image.attached? %>
+            <%= cl_image_tag item.product.image.key, class: "card-img-top" %>
+          <% else %>
+            <%= image_tag 'default_image.jpg', class: "card-img-top" %>
+          <% end %>
           <div class="card-body">
             <h5 class="card-title"><%= item.product.model %></h5>
             <p class="card-text"><%= item.product.description %></p>

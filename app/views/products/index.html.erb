@@ -1,10 +1,14 @@
 <div class="container-fluid mt-5 px-5">
-  <div class="text-center mb-4">
-    <h1>Encuentra tu ropa ideal, edición limitada.</h1>
-    <p>Busca por <strong>nombre</strong>, <strong>marca</strong> y <strong>tipo de producto</strong>.</p>
+  <div class=" mb-4">
+    <h1>
+      <span class="badge text-bg-light p-3 rounded-pill">
+        <i class="fa-solid fa-dolly mx-2"></i>
+      </span>
+      Mi inventario
+    </h1>
   </div>
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h2>Listado de Productos</h2>
+    <h2 class="fs-5">Listado de Productos</h2>
     <%= link_to 'Vender un nuevo producto', new_product_path, class: "btn btn-primary rounded-pill" %>
   </div>
   <div class="table-responsive">
@@ -28,10 +32,10 @@
           <tr>
             <td><%= product.id %></td>
             <td>
-              <% if product.image_url.present? %>
-                <%= image_tag product.image_url, class: "img-thumbnail card-rounded", style: "width: 50px; height: 50px;" %>
+              <% if product.image.attached? %>
+                <%= cl_image_tag product.image.key, class: "img-thumbnail card-rounded", style: "width: 50px; height: 50px; object-fit: cover;" %>
               <% else %>
-                <span class="placeholder-icon">No Image</span>
+                <%= image_tag 'default_image.jpg', class: "img-thumbnail card-rounded", style: "width: 50px; height: 50px; object-fit: cover;" %>
               <% end %>
             </td>
             <td><%= product.model %></td>
