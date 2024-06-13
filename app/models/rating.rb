@@ -1,7 +1,6 @@
 class Rating < ApplicationRecord
-  belongs_to :user
   belongs_to :product
+  belongs_to :review, optional: true
 
-  validates :score, presence: true, inclusion: { in: 1..5 }
-  validates :user, uniqueness: { scope: :product, message: "can only rate a product once" }
+  validates :score, presence: true
 end
