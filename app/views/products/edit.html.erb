@@ -47,7 +47,7 @@
         </div>
         <div class="mb-3">
           <%= form.label :price %>
-          <%= form.text_field :price, class: "form-control", id: "product_price", oninput: "formatPrice(this)", pattern: "^\d*(\.\d{0,2})?$" %>
+          <%= form.number_field :price, class: "form-control", id: "product_price", step: "0.01", min: "0" %>
         </div>
         <div class="mb-3">
           <%= form.label :description %>

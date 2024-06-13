@@ -1,12 +1,9 @@
-<div class="hero-section container-fluid px-5 py-5" style="background: url('<%= asset_path("hero-background.png") %>') no-repeat center center; background-size: cover;">
-  <div class="row w-100">
-    <div class="col-md-6 d-flex flex-column justify-content-center mb-4 mb-md-0 text-center text-md-start px-5">
-      <h1 class="display-4 fw-bold text-dark">Compra Moda Exclusiva de Forma Segura ✨</h1>
-      <p class="lead text-dark">Olvídate de las copias baratas y las compras de dudosa reputación. Aquí encontrarás piezas que brillan con personalidad propia, diseñadas para ti y para nadie más.</p>
-    </div>
-    <div class="col-md-6 d-flex justify-content-center">
-      <%= image_tag "shoes.png", alt: "hero image", class: "float-right" %>
-    </div>
+<div class="hero-section p-0 card-rounded" style="margin:4rem; position: relative; height: 800px; background: url('<%= asset_path("hero.webp") %>') no-repeat center center; background-size: cover;">
+  <div class="overlay card-rounded" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.3);"></div>
+  <div class="content d-flex flex-column justify-content-center align-items-center text-center" style="position: relative; z-index: 1; height: 100%;">
+    <h1 class="display-4 text-white fw-bold">Compra Moda Exclusiva de Forma Segura ✨</h1>
+    <p class="lead text-white">Olvídate de las copias baratas y las compras de dudosa reputación. Aquí encontrarás piezas que brillan con personalidad propia, diseñadas para ti y para nadie más.</p>
+    <a href="<%= catalog_products_path %>" class="btn btn-light btn-lg mt-4">Ver Catalog</a>
   </div>
 </div>
 
