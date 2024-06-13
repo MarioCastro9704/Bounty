@@ -16,7 +16,7 @@
 
         <div class="mb-3">
           <%= form.label :model %>
-          <%= form.text_field :model, class: "form-control", id: "product_model", value: @product.model %>
+          <%= form.text_field :model, class: "form-control", id: "product_model" %>
         </div>
         <div class="mb-3">
           <%= form.label :product_type, "Tipo de Producto" %><br>
@@ -35,11 +35,11 @@
         </div>
         <div class="mb-3">
           <%= form.label :brand %>
-          <%= form.text_field :brand, class: "form-control", id: "product_brand", value: @product.brand %>
+          <%= form.text_field :brand, class: "form-control", id: "product_brand" %>
         </div>
         <div class="mb-3">
           <%= form.label :release_date %>
-          <%= form.date_field :release_date, class: "form-control", id: "product_release_date", value: @product.release_date %>
+          <%= form.date_field :release_date, class: "form-control", id: "product_release_date" %>
         </div>
         <div class="mb-3">
           <%= form.label :stock %>
@@ -47,7 +47,7 @@
         </div>
         <div class="mb-3">
           <%= form.label :price %>
-          <%= form.text_field :price, class: "form-control", id: "product_price", value: number_with_delimiter(@product.price, delimiter: ',', separator: '.'), oninput: "formatPrice(this)" %>
+          <%= form.text_field :price, class: "form-control", id: "product_price", oninput: "formatPrice(this)", pattern: "^\d*(\.\d{0,2})?$" %>
         </div>
         <div class="mb-3">
           <%= form.label :description %>
@@ -58,7 +58,7 @@
           <%= form.label :image, "Nueva Imagen" %>
           <%= form.file_field :image, class: "form-control", id: "product_image" %>
         </div>
-        <%= form.submit "Actualizar", class: "btn btn-primary" %>
+        <%= form.submit "Actualizar", class: "btn btn-primary rounded-pill" %>
       <% end %>
     </div>
     <div class="col-md-5">
@@ -81,7 +81,7 @@
             <span id="preview_brand" class="badge bg-light text-dark">Marca: <%= @product.brand %></span>
             <span id="preview_release_date" class="badge bg-light text-dark">Año: <%= @product.release_date.year %></span>
           </div>
-          <h5 id="preview_price" class="card-price text-center mb-3"><%= number_to_currency(@product.price) %></h5>
+          <h5 id="preview_price" class="card-price text-center mb-3"><%= number_to_currency(@product.price)%></h5>
         </div>
       </div>
     </div>

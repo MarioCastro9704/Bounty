@@ -17,7 +17,10 @@ document.addEventListener("turbo:load", function() {
     productDescription.addEventListener("input", updatePreview);
   }
   if (productImageUrl) productImageUrl.addEventListener("input", updatePreview);
-  if (productPrice) productPrice.addEventListener("input", updatePreview);
+  if (productPrice) {
+    productPrice.addEventListener("input", updatePreview);
+    productPrice.addEventListener("input", () => formatPrice(productPrice));
+  }
 
   productTypeRadios.forEach(radio => {
     radio.addEventListener("change", updateSizeOptions);
@@ -28,6 +31,22 @@ document.addEventListener("turbo:load", function() {
   updateCharacterCount();
   updatePreview();
 });
+
+function formatPrice(input) {
+  // Eliminar los caracteres no numéricos excepto el punto decimal
+  let value = input.value.replace(/[^0-9.]/g, '');
+
+  // Dividir el valor en partes enteras y decimales
+  let parts = value.split('.');
+
+  // Limitar la parte decimal a dos dígitos
+  if (parts.length > 1) {
+    parts[1] = parts[1].slice(0, 2);
+  }
+
+  // Volver a unir las partes y asignar el valor formateado al input
+  input.value = parts.join('.');
+}
 
 function updateSizeOptions() {
   const selectedType = document.querySelector('input[name="product[product_type]"]:checked')?.value;

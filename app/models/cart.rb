@@ -10,24 +10,22 @@ class Cart < ApplicationRecord
       else
         current_item.errors.add(:base, "No hay suficiente stock disponible para agregar más de este producto.")
       end
+    elsif product.quantity_available.present? && product.quantity_available > 0
+      current_item = cart_items.build(product_id: product.id)
+      current_item.save
     else
-      if product.quantity_available.present? && product.quantity_available > 0
-        current_item = cart_items.build(product_id: product.id)
-        current_item.save
-      else
-        current_item = cart_items.build(product_id: product.id)
-        current_item.errors.add(:base, "Producto fuera de stock.")
-      end
+      current_item = cart_items.build(product_id: product.id)
+      current_item.errors.add(:base, "Producto fuera de stock.")
     end
     current_item
   end
 
   def remove_product(product)
     current_item = cart_items.find_by(product_id: product.id)
-    if current_item
-      current_item.decrement(:quantity)
-      current_item.save if current_item.quantity > 0
-      current_item.destroy if current_item.quantity <= 0
-    end
+    return unless current_item
+
+    current_item.decrement(:quantity)
+    current_item.save if current_item.quantity > 0
+    current_item.destroy if current_item.quantity <= 0
   end
 end
