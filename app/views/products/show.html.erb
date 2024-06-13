@@ -5,7 +5,7 @@
 
   <div class="card mb-3 w-100">
     <div class="row g-0">
-      <div class="col-md-6">
+      <div class="col-md-6 d-flex align-items-center justify-content-center">
         <% if @product.image_url.present? %>
           <img src="<%= @product.image_url %>" class="img-fluid rounded-start product-image fixed-size-image" alt=" <%= @product.model %>" style="width: 100%; height: auto; max-height: 600px; object-fit: cover;">
         <% else %>
@@ -15,16 +15,54 @@
 
       <div class="col-md-6 d-flex flex-column">
         <div class="card-body flex-grow-1">
-          <strong style="font-size: 30px;" class="card-title"><%= @product.model %></strong>
-          <p class="card-text"><%= @product.brand %></p>
-          <p class="card-text"><%= @product.description %></p>
+          <span class="heading-color bg-secondary text-white small rounded-3 px-3 py-2"><%= @product.category %></span>
+          <span class="heading-color bg-secondary text-white small rounded-3 px-3 py-2"><%= @product.brand %></span>
+          <h1 style="font-size: 30px;" class="card-title my-4"><%= @product.model %></h1>
+
+          <p class="card-text mb-4"><%= @product.description %></p>
+          <ul class="list-group list-group-borderless list-group-flush mb-4">
+            <li class="list-group-item heading-color d-flex mb-0">
+              <i class= "bi bi-patch-check-fill text-primary me-2">
+                »
+              </i>
+              Producto nuevo, con certificado de autenticidad.
+            </li>
+            <li class="list-group-item heading-color d-flex mb-0">
+              <i class= "bi bi-patch-check-fill text-primary me-2">
+                »
+              </i>
+              Garantía de 01 año.
+            </li>
+            <li class="list-group-item heading-color d-flex mb-0">
+              <i class= "bi bi-patch-check-fill text-primary me-2">
+                »
+              </i>
+              Incluye regalo exclusivo de la tienda Bounty.
+            </li>
+
+          </ul>
+          <div class="row mb-4">
+            <div class="col-sm-6 mb-4 mb-sm-0">
+              <div class="bg-dark text-white rounded text-center p-3">
+                <span class="h2 text-white"><%= @product.release_date %></span>
+                <p class="mb-0">Lanzamiento</p>
+              </div>
+            </div>
+            <div class="col-sm-6 mb-4 mb-sm-0">
+              <div class="bg-primary rounded text-center p-3">
+                <span class="h2 text-white">+10</span>
+                <p class="mb-0 text-white">Años de Experiencia</p>
+              </div>
+            </div>
+          </div>
 
         </div>
 
         <div class="card-footer">
-          <p class="card-text"><small class="text-body-secondary">Fecha de Lanzamiento: <%= @product.release_date %></small></p>
+          <h1 style="font-size: 25px;" class="card-title my-2"><%= number_with_precision(@product.price, precision: 2) %> USD</h1>
+          <p class="card-text"><small class="text-body-secondary">Envio gratis por compras mayores a 200 dólares.</small></p>
           <% if user_signed_in? %>
-            <%= link_to new_purchase_path, class: "btn btn-primary my-2 mx-1 rounded-pill" do %>
+            <%= link_to new_purchase_path, class: "btn btn-primary btn-lg btn-block my-2 mx-1 rounded-pill" do %>
               Comprar
             <% end %>
           <% else %>
