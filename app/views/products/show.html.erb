@@ -1,15 +1,15 @@
 <div class="container-fluid mt-5 px-5">
   <div class="text-center mb-4">
-    <h1> Detalle de <%= @product.category %></h1>
+    <h1>Detalle de <%= @product.product_type %></h1>
   </div>
 
   <div class="card mb-3 w-100">
     <div class="row g-0">
-      <div class="col-md-6 d-flex align-items-center justify-content-center">
-        <% if @product.image_url.present? %>
-          <img src="<%= @product.image_url %>" class="img-fluid rounded-start product-image fixed-size-image" alt=" <%= @product.model %>" style="width: 100%; height: auto; max-height: 600px; object-fit: cover;">
+      <div class="col-md-6">
+        <% if @product.image.attached? %>
+          <%= cl_image_tag @product.image.key, class: "img-fluid rounded-start product-image fixed-size-image", alt: @product.model, style: "width: 100%; height: auto; max-height: 600px; object-fit: cover;" %>
         <% else %>
-          <span class="placeholder-icon">No Image</span>
+          <%= image_tag 'default_image.jpg', class: "img-fluid rounded-start product-image fixed-size-image", alt: @product.model, style: "width: 100%; height: auto; max-height: 600px; object-fit: cover;" %>
         <% end %>
       </div>
 
@@ -21,25 +21,12 @@
 
           <p class="card-text mb-4"><%= @product.description %></p>
           <ul class="list-group list-group-borderless list-group-flush mb-4">
-            <li class="list-group-item heading-color d-flex mb-0">
-              <i class= "bi bi-patch-check-fill text-primary me-2">
-                »
-              </i>
-              Producto nuevo, con certificado de autenticidad.
-            </li>
-            <li class="list-group-item heading-color d-flex mb-0">
-              <i class= "bi bi-patch-check-fill text-primary me-2">
-                »
-              </i>
-              Garantía de 01 año.
-            </li>
-            <li class="list-group-item heading-color d-flex mb-0">
-              <i class= "bi bi-patch-check-fill text-primary me-2">
-                »
-              </i>
-              Incluye regalo exclusivo de la tienda Bounty.
-            </li>
-
+           <strong style="font-size: 30px;" class="card-title"><%= @product.model %></strong>
+            <p class="card-text"><%= @product.brand %></p>
+            <p class="card-text"><%= @product.description %></p>
+            <p class="card-text"><strong>Talla:</strong> <%= @product.size %></p>
+            <p class="card-text"><strong>Precio:</strong> <%= number_to_currency(@product.price) %></p>
+            <p class="card-text"><strong>Cantidad Disponible:</strong> <%= @product.quantity_available %></p>
           </ul>
           <div class="row mb-4">
             <div class="col-sm-6 mb-4 mb-sm-0">
@@ -55,16 +42,12 @@
               </div>
             </div>
           </div>
-
         </div>
-
         <div class="card-footer">
           <h1 style="font-size: 25px;" class="card-title my-2"><%= number_with_precision(@product.price, precision: 2) %> USD</h1>
           <p class="card-text"><small class="text-body-secondary">Envio gratis por compras mayores a 200 dólares.</small></p>
           <% if user_signed_in? %>
-            <%= link_to new_purchase_path, class: "btn btn-primary btn-lg btn-block my-2 mx-1 rounded-pill" do %>
-              Comprar
-            <% end %>
+            <%= button_to 'Comprar', add_to_cart_path(product_id: @product.id), method: :post, class: "btn btn-primary my-2 mx-1 rounded-pill" %>
           <% else %>
             <%= link_to new_user_session_path, class: "btn btn-outline-primary me-2 rounded-pill" do %>
               Login
@@ -73,11 +56,63 @@
               Sign-up
             <% end %>
           <% end %>
-
         </div>
       </div>
-
-
     </div>
   </div>
 </div>
+
+  <!-- Section for Reviews and Ratings -->
+  <div class="reviews-section mt-5">
+
+    <h4>Evaluaciones</h4>
+
+    <% if user_signed_in? %>
+      <%= form_with model: [@product, @product.reviews.build], url: product_reviews_path(@product), local: true do |form| %>
+        <div class="form-group">
+          <label for="rating">How would you rate your experience?</label>
+          <div class="star-rating">
+            <% 5.times do |i| %>
+              <input type="radio" id="star<%= i+1 %>" name="review[rating]" value="<%= i+1 %>">
+              <label for="star<%= i+1 %>" class="fas fa-star"></label>
+            <% end %>
+          </div>
+        </div>
+        <div class="form-group mt-3">
+          <%= form.text_area :content, class: "form-control", placeholder: "Share your insights on the experience. Other travelers would love to hear your expertise!" %>
+        </div>
+        <%= form.submit 'Enviar', class: "btn btn-primary mt-2" %>
+      <% end %>
+    <% else %>
+      <p><%= link_to 'Login', new_user_session_path %> or <%= link_to 'Sign-up', new_user_registration_path %> to leave a review and rating.</p>
+    <% end %>
+  </div>
+</div>
+
+<style>
+  .star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+  }
+
+  .star-rating input[type="radio"] {
+    display: none;
+  }
+
+  .star-rating label {
+    font-size: 2rem;
+    color: #ffd700;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+
+  .star-rating input[type="radio"]:checked ~ label {
+    color: #ffca28;
+  }
+
+  .star-rating label:hover,
+  .star-rating label:hover ~ label {
+    color: #ffff20;
+  }
+</style>

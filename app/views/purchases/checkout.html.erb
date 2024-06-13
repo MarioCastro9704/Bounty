@@ -1,0 +1,43 @@
+<div class="container mt-5">
+  <h1>Checkout</h1>
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Detalles del Pedido</h3>
+      <% @cart.cart_items.each do |item| %>
+        <div class="card mb-3">
+          <% if item.product.image.attached? %>
+            <%= cl_image_tag item.product.image.key, class: "card-img-top" %>
+          <% else %>
+            <%= image_tag 'default_image.jpg', class: "card-img-top" %>
+          <% end %>
+          <div class="card-body">
+            <h5 class="card-title"><%= item.product.model %></h5>
+            <p class="card-text"><%= item.product.description %></p>
+            <p class="card-text"><strong>Marca:</strong> <%= item.product.brand %></p>
+            <p class="card-text"><strong>Precio:</strong> <%= number_to_currency(item.product.price) %></p>
+            <p class="card-text"><strong>Cantidad:</strong> <%= item.quantity %></p>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="col-md-6">
+      <h3>Detalles del Comprador</h3>
+      <%= form_with model: @purchase, url: purchases_path, local: true do |form| %>
+        <div class="mb-3">
+          <%= form.label :address, "Dirección de Envío" %>
+          <%= form.text_field :address, class: "form-control" %>
+        </div>
+        <div class="mb-3">
+          <%= form.label :payment_method, "Método de Pago" %>
+          <%= form.select :payment_method, ["Tarjeta de Crédito", "PayPal", "Transferencia Bancaria"], {}, class: "form-control" %>
+        </div>
+        <%= form.hidden_field :user_id, value: current_user.id %>
+        <%= form.hidden_field :cart_id, value: @cart.id %>
+        <div class="mb-3">
+          <%= form.submit "Confirmar Compra", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

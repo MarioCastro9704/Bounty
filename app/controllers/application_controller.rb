@@ -9,4 +9,17 @@ class ApplicationController < ActionController::Base
     # For additional in app/views/devise/registrations/edit.html.erb
     devise_parameter_sanitizer.permit(:account_update, keys: %i[first_name last_name])
   end
+
+  helper_method :current_cart
+
+  def current_cart
+    @current_cart = Cart.find_by(id: session[:cart_id]) if session[:cart_id]
+
+    if @current_cart.nil?
+      @current_cart = Cart.create
+      session[:cart_id] = @current_cart.id
+    end
+
+    @current_cart
+  end
 end

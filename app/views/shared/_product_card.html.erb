@@ -1,0 +1,23 @@
+<div class="card mb-3 shadow-sm card-rounded" style="width: 24rem;">
+  <% if product && product.image.attached? %>
+    <%= cl_image_tag product.image.key, class: "card-img-top fixed-size-image", alt: product.model, style: "width: 100%; height: 300px; object-fit: cover;" %>
+  <% else %>
+    <%= image_tag 'default_image.jpg', class: "card-img-top fixed-size-image", alt: product ? product.model : 'Producto', style: "width: 100%; height: 300px; object-fit: cover;" %>
+  <% end %>
+  <div class="card-body d-flex flex-column">
+    <h5 class="card-title text-center"><%= product ? product.model : 'Producto' %></h5>
+    <div class="d-flex justify-content-center mb-3">
+      <span class="badge rounded-pill text-bg-primary"><%= product ? product.product_type : 'Tipo' %></span>
+    </div>
+    <p class="card-text text-center flex-grow-1"><%= product ? product.description : 'Descripción' %></p>
+    <div class="d-flex justify-content-center mb-3">
+      <span class="badge bg-light text-dark">Stock: <%= product ? product.quantity_available : 'N/A' %></span>
+      <span class="badge bg-light text-dark">Talla: <%= product ? product.size : 'N/A' %></span>
+      <span class="badge bg-light text-dark">Marca: <%= product ? product.brand : 'N/A' %></span>
+      <span class="badge bg-light text-dark">Año: <%= product ? product.release_date.year : 'N/A' %></span>
+    </div>
+    <h5 class="card-price text-center mb-3"><%= product ? number_to_currency(product.price) : 'Precio' %></h5>
+    <a href="<%= product_path(product) %>" class="btn btn-outline-secondary rounded-pill w-100 mb-2">Ver Producto</a>
+    <%= button_to 'Comprar', add_to_cart_path(product), method: :post, class: "btn btn-primary rounded-pill w-100 mb-2" %>
+  </div>
+</div>

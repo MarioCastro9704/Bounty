@@ -1,47 +1,86 @@
 <div class="container mt-5">
-  <h2>Editar Producto</h2>
-  <%= form_with(model: @product, local: true) do |form| %>
-    <div class="mb-3">
-      <%= form.label :model, "Modelo" %>
-      <%= form.text_field :model, class: "form-control" %>
-    </div>
-    <div class="mb-3">
-      <%= form.label :brand, "Marca" %>
-      <%= form.text_field :brand, class: "form-control" %>
-    </div>
-    <div class="mb-1">
-      <%= form.label :category, "Categoría" %>
-      <%= form.text_field :category, class: "form-control" %>
-    </div>
+  <div class="row">
+    <div class="col-md-7">
+      <h2>Editar Producto</h2>
+      <%= form_with model: @product, local: true, id: "product_form" do |form| %>
+        <% if @product.errors.any? %>
+          <div class="alert alert-danger">
+            <h4>Errores</h4>
+            <ul>
+              <% @product.errors.full_messages.each do |message| %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
 
-    <div class="mb-3">
-      <%= form.label :price, "Precio" %>
-      <%= form.number_field :price, step: 0.01, class: "form-control" %>
-    </div>
+        <!-- Dropdown de Categorías -->
+        <div class="mb-3">
+          <%= form.label :category_id, "Categoría" %>
+          <%= form.collection_select :category_id, Category.all, :id, :name, { prompt: "Seleccione una categoría" }, { class: "form-control", id: "product_category_id" } %>
+        </div>
 
-    <div class="mb-3">
-      <%= form.label :description, "Descripción" %>
-      <%= form.text_area :description, class: "form-control" %>
+        <div class="mb-3">
+          <%= form.label :model %>
+          <%= form.text_field :model, class: "form-control", id: "product_model" %>
+        </div>
+        <div class="mb-3">
+          <%= form.label :size, "Talla" %><br>
+          <div id="size_radio_buttons" class="btn-group" role="group" aria-label="Talla">
+            <!-- The radio buttons will be dynamically added here -->
+          </div>
+        </div>
+        <div class="mb-3">
+          <%= form.label :brand %>
+          <%= form.text_field :brand, class: "form-control", id: "product_brand" %>
+        </div>
+        <div class="mb-3">
+          <%= form.label :release_date %>
+          <%= form.date_field :release_date, class: "form-control", id: "product_release_date" %>
+        </div>
+        <div class="mb-3">
+          <%= form.label :stock %>
+          <%= form.number_field :quantity_available, class: "form-control", id: "product_quantity_available", maxlength: 6, oninput: "this.value=this.value.slice(0,6)" %>
+        </div>
+        <div class="mb-3">
+          <%= form.label :price %>
+          <%= form.number_field :price, class: "form-control", id: "product_price", step: "0.01", min: "0" %>
+        </div>
+        <div class="mb-3">
+          <%= form.label :description %>
+          <%= form.text_area :description, class: "form-control", id: "product_description", maxlength: 120 %>
+          <small id="description_counter" class="form-text text-muted"><%= 120 - @product.description.length %> caracteres restantes</small>
+        </div>
+        <div class="mb-3">
+          <%= form.label :image, "Nueva Imagen" %>
+          <%= form.file_field :image, class: "form-control", id: "product_image" %>
+        </div>
+        <%= form.submit "Actualizar", class: "btn btn-primary rounded-pill" %>
+      <% end %>
     </div>
-
-    <div class="mb-3">
-      <%= form.label :image_url, "URL de la Imagen" %>
-      <%= form.text_field :image_url, class: "form-control" %>
+    <div class="col-md-5">
+      <h2>Mi producto</h2>
+      <div class="card mb-3 shadow-sm card-rounded" style="width: 24rem;">
+        <% if @product.image.attached? %>
+          <%= cl_image_tag @product.image.key, id: "preview_image", class: "card-img-top fixed-size-image", style: "width: 100%; height: 300px; object-fit: cover;" %>
+        <% else %>
+          <%= image_tag 'default_image.jpg', id: "preview_image", class: "card-img-top fixed-size-image", style: "width: 100%; height: 300px; object-fit: cover;" %>
+        <% end %>
+        <div class="card-body d-flex flex-column">
+          <h5 id="preview_model" class="card-title text-center"><%= @product.model %></h5>
+          <div class="d-flex justify-content-center mb-3">
+            <span id="preview_category" class="badge rounded-pill text-bg-primary"><%= @product.category.name %></span>
+          </div>
+          <p id="preview_description" class="card-text text-center flex-grow-1"><%= @product.description %></p>
+          <div class="d-flex justify-content-center mb-3">
+            <span id="preview_quantity_available" class="badge bg-light text-dark">Stock: <%= @product.quantity_available %></span>
+            <span id="preview_size" class="badge bg-light text-dark">Talla: <%= @product.size %></span>
+            <span id="preview_brand" class="badge bg-light text-dark">Marca: <%= @product.brand %></span>
+            <span id="preview_release_date" class="badge bg-light text-dark">Año: <%= @product.release_date.year %></span>
+          </div>
+          <h5 id="preview_price" class="card-price text-center mb-3"><%= number_to_currency(@product.price)%></h5>
+        </div>
+      </div>
     </div>
-
-    <div class="mb-3">
-      <%= form.label :release_date, "Fecha de Lanzamiento" %>
-      <%= form.date_field :release_date, class: "form-control" %>
-    </div>
-
-    <div class="mb-3">
-      <%= form.label :available, "Disponible" %>
-      <%= form.check_box :available %>
-    </div>
-
-    <div class="mb-3">
-      <%= form.submit "Guardar Cambios", class: "btn btn-primary rounded-pill" %>
-      <%= link_to 'Cancelar', products_path, class: "btn btn-secondary rounded-pill" %>
-    </div>
-  <% end %>
+  </div>
 </div>

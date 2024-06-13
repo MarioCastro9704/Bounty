@@ -1,0 +1,62 @@
+<div class="container my-5">
+  <h1 class="fs-2 font-weight-bold">Tu carrito</h1>
+  <p><%= pluralize(@cart.cart_items.count, 'producto') %> en total</p>
+
+  <div class="row">
+    <div class="col-md-8">
+      <% @cart.cart_items.each do |item| %>
+        <div class="card mb-3 card-rounded " style="width: 100%;">
+          <div class="row g-0">
+            <div class="col-md-4 fixed-size-image">
+              <% if item.product.image.attached? %>
+                <%= cl_image_tag item.product.image.key, class: "img-fluid fixed-size-image", alt: item.product.model, style: "width: 100%; height: 300px; object-fit: cover;" %>
+              <% else %>
+                <%= image_tag 'default_image.jpg', class: "img-fluid fixed-size-image", alt: item.product.model, style: "width: 100%; height: 300px; object-fit: cover;" %>
+              <% end %>
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title"><%= item.product.model %></h5>
+                <p class="card-text"><small class="text-muted"><%= item.product.description %></small></p>
+                <p class="card-text">Marca: <%= item.product.brand %></p>
+                <p class="card-text">Talla: <%= item.product.size %></p>
+                <p class="card-text">Año: <%= item.product.release_date.year %></p>
+                <p class="card-text"><strong><%= number_to_currency(item.product.price) %></strong></p>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <% if item.quantity && item.quantity > 1 %>
+                      <%= button_to '-', update_item_cart_path(item, quantity: item.quantity - 1), method: :patch, class: 'btn btn-outline-secondary rounded-pill btn-sm' %>
+                    <% else %>
+                      <%= button_to '-', update_item_cart_path(item, quantity: 1), method: :patch, class: 'btn btn-outline-secondary rounded-pill btn-sm', disabled: true %>
+                    <% end %>
+                    <span class="mx-2"><%= item.quantity %></span>
+                    <%= button_to '+', update_item_cart_path(item, quantity: item.quantity + 1), method: :patch, class: 'btn btn-outline-secondary rounded-pill btn-sm', disabled: (item.quantity >= item.product.quantity_available) %>
+                  </div>
+                  <%= button_to 'Eliminar', remove_from_cart_path(item.product), method: :post, class: 'btn btn-outline-danger px-4 rounded-pill btn-sm' %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card card-rounded ">
+        <div class="card-body">
+          <h5 class="card-title">Resumen del pedido</h5>
+          <p class="card-text ">Productos (<%= @cart.cart_items.count %>): <%= number_to_currency(@cart.cart_items.sum { |item| item.product.price * item.quantity }) %></p>
+          <hr>
+          <h5 class="card-title">Subtotal incl. IVA</h5>
+          <p class="card-text display-4"><strong><%= number_to_currency(@cart.cart_items.sum { |item| item.product.price * item.quantity }) %></strong></p>
+          <%= link_to 'Ir a pagar', checkout_purchases_path(cart_id: @cart.id), class: 'btn btn-primary rounded-pill btn-lg w-100 mt-3' %>
+          <div class="my-4 d-flex justify-content-center">
+            <%= image_tag 'visa.svg', alt: 'Visa', class: 'img-fluid mx-2', style: 'width: 40px;' %>
+            <%= image_tag 'mastercard.svg', alt: 'Mastercard', class: 'img-fluid mx-2', style: 'width: 40px;' %>
+            <%= image_tag 'amex.svg', alt: 'Amex', class: 'img-fluid mx-2', style: 'width: 40px;' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
