@@ -7,7 +7,7 @@
   <div class="card-body d-flex flex-column">
     <h5 class="card-title text-center"><%= product ? product.model : 'Producto' %></h5>
     <div class="d-flex justify-content-center mb-3">
-      <span class="badge rounded-pill text-bg-primary"><%= product ? product.product_type : 'Tipo' %></span>
+      <span class="badge rounded-pill text-bg-primary"><%= product ? product.category.name : 'Categoría' %></span>
     </div>
     <p class="card-text text-center flex-grow-1"><%= product ? product.description : 'Descripción' %></p>
     <div class="d-flex justify-content-center mb-3">
