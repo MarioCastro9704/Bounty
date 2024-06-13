@@ -22,7 +22,7 @@
           <th>Descripción</th>
           <th>Precio</th>
           <th>Cantidad Disponible</th>
-          <th>Tipo de Producto</th>
+          <th>Categoría</th>
           <th>Talla</th>
           <th>Acciones</th>
         </tr>
@@ -43,7 +43,7 @@
             <td><%= product.description %></td>
             <td><%= number_to_currency(product.price) %></td>
             <td><%= product.quantity_available %></td>
-            <td><%= product.product_type %></td>
+            <td><%= product.category.name %></td>
             <td><%= product.size %></td>
             <td>
               <%= link_to product_path(product), class: "btn btn-outline-primary btn-sm me-2 rounded-pill", title: 'Ver Producto', data: { toggle: 'tooltip', placement: 'top' } do %>
