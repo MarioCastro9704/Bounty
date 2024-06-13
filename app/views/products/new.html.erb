@@ -13,6 +13,7 @@
             </ul>
           </div>
         <% end %>
+        <!-- Otros campos del formulario -->
         <div class="mb-3">
           <%= form.label :model %>
           <%= form.text_field :model, class: "form-control", id: "product_model" %>
@@ -57,7 +58,7 @@
           <%= form.label :image, "Imagen del Producto" %>
           <%= form.file_field :image, class: "form-control", id: "product_image" %>
         </div>
-        <%= form.submit "Guardar", class: "btn btn-primary" %>
+        <%= form.submit "Guardar", class: "btn btn-primary rounded-pill" %>
       <% end %>
     </div>
     <div class="col-md-5">

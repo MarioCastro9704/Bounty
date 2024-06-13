@@ -1,5 +1,5 @@
 class PurchasesController < ApplicationController
-  before_action :set_cart, only: [:checkout, :create]
+  before_action :set_cart, only: %i[checkout create]
 
   def index
     @purchases = Purchase.all
