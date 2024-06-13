@@ -1,5 +1,15 @@
 class Product < ApplicationRecord
+  include PgSearch::Model
+  pg_search_scope :search_by_attributes,
+    against: %i[model description brand],
+    associated_against: {
+      category: :name
+    },
+    using: {
+      tsearch: { prefix: true }
+    }
   belongs_to :user
+  belongs_to :category
   has_many :purchases
   has_many :reviews, dependent: :destroy
   has_many :ratings, dependent: :destroy
@@ -8,7 +18,7 @@ class Product < ApplicationRecord
 
   before_validation :sanitize_price
 
-  validates :product_type, :price, :description, :model, :brand, :release_date, :quantity_available, :size, presence: true
+  validates :category_id, :price, :description, :model, :brand, :release_date, :quantity_available, :size, presence: true
   validates :price, numericality: { greater_than_or_equal_to: 0 }
   validates :quantity_available, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 999999 }
 
