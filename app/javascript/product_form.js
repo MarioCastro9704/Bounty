@@ -6,7 +6,7 @@ document.addEventListener("turbo:load", function() {
   const productDescription = document.getElementById("product_description");
   const productImageUrl = document.getElementById("product_image_url");
   const productPrice = document.getElementById("product_price");
-  const productTypeRadios = document.querySelectorAll('input[name="product[product_type]"]');
+  const productCategorySelect = document.getElementById("product_category_id");
 
   if (productModel) productModel.addEventListener("input", updatePreview);
   if (productBrand) productBrand.addEventListener("input", updatePreview);
@@ -22,10 +22,10 @@ document.addEventListener("turbo:load", function() {
     productPrice.addEventListener("input", () => formatPrice(productPrice));
   }
 
-  productTypeRadios.forEach(radio => {
-    radio.addEventListener("change", updateSizeOptions);
-    radio.addEventListener("change", updatePreview);
-  });
+  if (productCategorySelect) {
+    productCategorySelect.addEventListener("change", updateSizeOptions);
+    productCategorySelect.addEventListener("change", updatePreview);
+  }
 
   updateSizeOptions();
   updateCharacterCount();
@@ -49,12 +49,15 @@ function formatPrice(input) {
 }
 
 function updateSizeOptions() {
-  const selectedType = document.querySelector('input[name="product[product_type]"]:checked')?.value;
+  const selectedCategory = document.getElementById("product_category_id")?.selectedOptions[0]?.text;
   const sizes = {
     'Ropa': ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-    'Zapatillas': ['6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12']
+    'Zapatillas': ['6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12'],
+    'Remeras': ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+    'Pantalones': ['28', '30', '32', '34', '36', '38', '40'],
+    'Accesorios': ['Tamaño Único']
   };
-  const selectedSizes = sizes[selectedType] || [];
+  const selectedSizes = sizes[selectedCategory] || [];
   const sizeRadioButtons = document.getElementById("size_radio_buttons");
 
   if (sizeRadioButtons) {
@@ -90,4 +93,27 @@ function updateCharacterCount() {
       counter.textContent = `${remaining} caracteres restantes`;
     }
   }
+}
+
+function updatePreview() {
+  const model = document.getElementById("product_model")?.value || "";
+  const category = document.getElementById("product_category_id")?.selectedOptions[0]?.text || "";
+  const brand = document.getElementById("product_brand")?.value || "";
+  const releaseDate = document.getElementById("product_release_date")?.value || "";
+  const quantityAvailable = document.getElementById("product_quantity_available")?.value || "";
+  const description = document.getElementById("product_description")?.value || "";
+  const price = document.getElementById("product_price")?.value || "";
+
+  document.getElementById("preview_model").textContent = model;
+  document.getElementById("preview_category").textContent = category;
+  document.getElementById("preview_brand").textContent = `Marca: ${brand}`;
+  document.getElementById("preview_quantity_available").textContent = `Stock: ${quantityAvailable}`;
+  document.getElementById("preview_description").textContent = description;
+
+  const year = releaseDate ? new Date(releaseDate).getFullYear() : "N/A";
+  document.getElementById("preview_release_date").textContent = `Año: ${year}`;
+  document.getElementById("preview_price").textContent = price;
+
+  const selectedSize = document.querySelector('input[name="product[size]"]:checked');
+  document.getElementById("preview_size").textContent = selectedSize ? `Talla: ${selectedSize.value}` : "";
 }

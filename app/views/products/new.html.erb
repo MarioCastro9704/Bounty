@@ -13,19 +13,17 @@
             </ul>
           </div>
         <% end %>
+
+        <!-- Dropdown de Categorías -->
+        <div class="mb-3">
+          <%= form.label :category_id, "Categoría" %>
+          <%= form.collection_select :category_id, Category.all, :id, :name, { prompt: "Seleccione una categoría" }, { class: "form-control", id: "product_category_id" } %>
+        </div>
+
         <!-- Otros campos del formulario -->
         <div class="mb-3">
           <%= form.label :model %>
           <%= form.text_field :model, class: "form-control", id: "product_model" %>
-        </div>
-        <div class="mb-3">
-          <%= form.label :product_type, "Tipo de Producto" %><br>
-          <div class="btn-group" role="group" aria-label="Tipo de Producto">
-            <% ['Ropa', 'Zapatillas'].each do |type| %>
-              <input type="radio" class="btn-check" name="product[product_type]" id="product_type_<%= type %>" value="<%= type %>" autocomplete="off">
-              <label class="btn btn-outline-primary rounded-pill mx-1" for="product_type_<%= type %>"><%= type %></label>
-            <% end %>
-          </div>
         </div>
         <div class="mb-3">
           <%= form.label :size, "Talla" %><br>
@@ -68,7 +66,7 @@
         <div class="card-body d-flex flex-column">
           <h5 id="preview_model" class="card-title text-center"></h5>
           <div class="d-flex justify-content-center mb-3">
-            <span id="preview_product_type" class="badge rounded-pill text-bg-primary"></span>
+            <span id="preview_category" class="badge rounded-pill text-bg-primary"></span>
           </div>
           <p id="preview_description" class="card-text text-center flex-grow-1"></p>
           <div class="d-flex justify-content-center mb-3">

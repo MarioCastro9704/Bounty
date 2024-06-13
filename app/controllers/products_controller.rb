@@ -1,3 +1,4 @@
+# app/controllers/products_controller.rb
 class ProductsController < ApplicationController
   before_action :authenticate_user!, except: %i[show catalog]
   before_action :set_product, only: %i[show edit update destroy]
@@ -42,7 +43,6 @@ class ProductsController < ApplicationController
   end
 
   def destroy
-    @product = Product.find(params[:id])
     @product.destroy
     redirect_to products_url, notice: 'Producto eliminado exitosamente.'
   end
@@ -54,7 +54,7 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    params.require(:product).permit(:product_type, :price, :description, :model, :brand, :image, :release_date,
+    params.require(:product).permit(:category_id, :price, :description, :model, :brand, :image, :release_date,
                                     :quantity_available, :size)
   end
 

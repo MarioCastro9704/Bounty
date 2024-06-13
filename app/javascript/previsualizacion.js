@@ -6,7 +6,7 @@ document.addEventListener("turbo:load", function() {
   const productDescription = document.getElementById("product_description");
   const productImageInput = document.getElementById("product_image");
   const productPrice = document.getElementById("product_price");
-  const productTypeRadios = document.querySelectorAll('input[name="product[product_type]"]');
+  const productCategorySelect = document.getElementById("product_category_id");
 
   if (productModel) productModel.addEventListener("input", updatePreview);
   if (productBrand) productBrand.addEventListener("input", updatePreview);
@@ -17,11 +17,8 @@ document.addEventListener("turbo:load", function() {
     productDescription.addEventListener("input", updatePreview);
   }
   if (productPrice) productPrice.addEventListener("input", updatePreview);
-
-  productTypeRadios.forEach(radio => {
-    radio.addEventListener("change", updateSizeOptions);
-    radio.addEventListener("change", updatePreview);
-  });
+  if (productCategorySelect) productCategorySelect.addEventListener("change", updateSizeOptions);
+  if (productCategorySelect) productCategorySelect.addEventListener("change", updatePreview);
 
   if (productImageInput) {
     productImageInput.addEventListener("change", function(event) {
@@ -49,12 +46,15 @@ document.addEventListener("turbo:load", function() {
 });
 
 function updateSizeOptions() {
-  const selectedType = document.querySelector('input[name="product[product_type]"]:checked')?.value;
+  const selectedCategory = document.getElementById("product_category_id")?.selectedOptions[0]?.text;
   const sizes = {
     'Ropa': ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
-    'Zapatillas': ['6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12']
+    'Zapatillas': ['6', '6.5', '7', '7.5', '8', '8.5', '9', '9.5', '10', '10.5', '11', '11.5', '12'],
+    'Remeras': ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
+    'Pantalones': ['28', '30', '32', '34', '36', '38', '40'],
+    'Accesorios': ['Tamaño Único']
   };
-  const selectedSizes = sizes[selectedType] || [];
+  const selectedSizes = sizes[selectedCategory] || [];
   const sizeRadioButtons = document.getElementById("size_radio_buttons");
 
   if (sizeRadioButtons) {
@@ -94,7 +94,7 @@ function updateCharacterCount() {
 
 function updatePreview() {
   const model = document.getElementById("product_model")?.value || "";
-  const productType = document.querySelector('input[name="product[product_type]"]:checked')?.value || "";
+  const category = document.getElementById("product_category_id")?.selectedOptions[0]?.text || "";
   const brand = document.getElementById("product_brand")?.value || "";
   const releaseDate = document.getElementById("product_release_date")?.value || "";
   const quantityAvailable = document.getElementById("product_quantity_available")?.value || "";
@@ -102,7 +102,7 @@ function updatePreview() {
   const price = document.getElementById("product_price")?.value || "";
 
   document.getElementById("preview_model").textContent = model;
-  document.getElementById("preview_product_type").textContent = productType;
+  document.getElementById("preview_category").textContent = category;
   document.getElementById("preview_brand").textContent = `Marca: ${brand}`;
   document.getElementById("preview_quantity_available").textContent = `Stock: ${quantityAvailable}`;
   document.getElementById("preview_description").textContent = description;
