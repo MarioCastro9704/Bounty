@@ -1,9 +1,6 @@
-class MakeCategoryIdNotNullInProducts < ActiveRecord::Migration[7.1]
+# db/migrate/[timestamp]_make_category_id_not_null_in_products.rb
+class MakeCategoryIdNotNullInProducts < ActiveRecord::Migration[6.0]
   def change
-    Product.reset_column_information
-    reversible do |dir|
-      dir.up { Product.where(category_id: nil).update_all(category_id: Category.first.id) }
-    end
     change_column_null :products, :category_id, false
   end
 end
