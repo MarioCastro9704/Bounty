@@ -1,9 +1,13 @@
-<div class="hero-section p-0 card-rounded" style="margin:4rem; position: relative; height: 800px; background: url('<%= asset_path("hero.webp") %>') no-repeat center center; background-size: cover;">
-  <div class="overlay card-rounded" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.3);"></div>
+<div class="hero-section p-0 card-rounded" style="margin:4rem; position: relative; height: 800px; overflow: hidden;">
+  <div class="overlay card-rounded" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.1);"></div>
   <div class="content d-flex flex-column justify-content-center align-items-center text-center" style="position: relative; z-index: 1; height: 100%;">
     <h1 class="display-4 text-white fw-bold">Compra Moda Exclusiva de Forma Segura ✨</h1>
     <p class="lead text-white">Olvídate de las copias baratas y las compras de dudosa reputación. Aquí encontrarás piezas que brillan con personalidad propia, diseñadas para ti y para nadie más.</p>
     <a href="<%= catalog_products_path %>" class="btn btn-light btn-lg mt-4">Ver Catalog</a>
+  </div>
+  <div class="hero-bg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('<%= asset_path("hero.webp") %>') no-repeat center center; background-size: cover; filter: blur(5px);"></div>
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.2);"></div>
   </div>
 </div>
 
@@ -58,5 +62,29 @@
         <%= render partial: 'shared/product_card', locals: { product: product } %>
       </div>
     <% end %>
+  </div>
+</div>
+
+<!-- New Promotional Section -->
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="promo-card card-rounded" style="position: relative; overflow: hidden;">
+        <img src="<%= asset_path('shoes.webp') %>" alt="Kanken Bag" style="width: 100%; height: auto; display: block;">
+        <div class="promo-overlay" style="position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0, 0, 0, 0.5); color: white; padding: 1rem;">
+          <h2>The One, The Only, Kånken</h2>
+          <a href="#" class="btn btn-light">Find Yours</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="promo-card card-rounded" style="position: relative; overflow: hidden;">
+        <img src="<%= asset_path('sweatshirt.webp') %>" alt="Warm Weather Trekking" style="width: 100%; height: auto; display: block;">
+        <div class="promo-overlay" style="position: absolute; bottom: 0; left: 0; width: 100%; background: rgba(0, 0, 0, 0.5); color: white; padding: 1rem;">
+          <h2>Warm Weather Trekking</h2>
+          <a href="#" class="btn btn-light">Explore Now</a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

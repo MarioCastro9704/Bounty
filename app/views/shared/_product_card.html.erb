@@ -1,4 +1,4 @@
-<div class="card mb-3 shadow-sm card-rounded" style="width: 24rem;">
+<div class="card mb-3 card-rounded" style="width: 24rem;">
   <% if product && product.image.attached? %>
     <%= cl_image_tag product.image.key, class: "card-img-top fixed-size-image", alt: product.model, style: "width: 100%; height: 300px; object-fit: cover;" %>
   <% else %>
