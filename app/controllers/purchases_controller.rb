@@ -19,10 +19,15 @@ class PurchasesController < ApplicationController
 
   def create
     @purchase = Purchase.new(purchase_params)
+    @purchase.user = current_user
+    @purchase.cart_id = @cart.id  # Asignar directamente el cart_id
+
     if @purchase.save
       session[:cart_id] = nil # Limpiar el carrito después de la compra
-      redirect_to @purchase
+      redirect_to confirmation_purchase_path(@purchase)
     else
+      flash[:alert] = @purchase.errors.full_messages.to_sentence
+      Rails.logger.debug("Purchase creation failed: #{@purchase.errors.full_messages}")
       render 'checkout'
     end
   end
@@ -46,13 +51,17 @@ class PurchasesController < ApplicationController
     redirect_to purchases_path
   end
 
+  def confirmation
+    @purchase = Purchase.find(params[:id])
+  end
+
   private
 
   def set_cart
-    @cart = Cart.find(params[:cart_id])
+    @cart = Cart.find(session[:cart_id])
   end
 
   def purchase_params
-    params.require(:purchase).permit(:user_id, :address, :payment_method, :cart_id)
+    params.require(:purchase).permit(:address, :payment_method, :country, :first_name, :last_name, :postal_code, :commune, :region, :phone, :billing_address, :shipping_method)
   end
 end

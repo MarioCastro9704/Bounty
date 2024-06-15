@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_06_15_035434) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_15_175425) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -88,6 +88,18 @@ ActiveRecord::Schema[7.1].define(version: 2024_06_15_035434) do
     t.bigint "product_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "country"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "address"
+    t.string "postal_code"
+    t.string "commune"
+    t.string "region"
+    t.string "phone"
+    t.string "payment_method"
+    t.string "shipping_method"
+    t.string "billing_address"
+    t.integer "cart_id"
     t.index ["product_id"], name: "index_purchases_on_product_id"
     t.index ["user_id"], name: "index_purchases_on_user_id"
   end

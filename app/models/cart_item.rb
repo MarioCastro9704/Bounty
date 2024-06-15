@@ -4,17 +4,9 @@ class CartItem < ApplicationRecord
 
   before_save :set_default_quantity
 
-  validate :quantity_within_stock
-
   private
 
   def set_default_quantity
     self.quantity ||= 1
-  end
-
-  def quantity_within_stock
-    return unless quantity.present? && product.quantity_available.present? && quantity > product.quantity_available
-
-    errors.add(:quantity, "exceeds stock available")
   end
 end
