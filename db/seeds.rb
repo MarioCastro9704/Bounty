@@ -1,4 +1,8 @@
 # db/seeds.rb
+# Eliminar
+User.destroy_all
+Category.destroy_all
+Product.destroy_all
 
 # Crear categorías
 categories = %w[Zapatillas Remeras Pantalones Accesorios]
