@@ -8,10 +8,10 @@ class CartsController < ApplicationController
     product = Product.find(params[:product_id])
     item = @cart.add_product(product)
 
-    if item.errors.any?
-      flash[:alert] = item.errors.full_messages.to_sentence
-    else
+    if item.save
       flash[:notice] = 'Producto agregado al carrito.'
+    else
+      flash[:alert] = item.errors.full_messages.to_sentence
     end
 
     redirect_to cart_path
