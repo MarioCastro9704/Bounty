@@ -1,6 +1,6 @@
 # app/controllers/products_controller.rb
 class ProductsController < ApplicationController
-  before_action :authenticate_user!, except: %i[show catalog]
+  before_action :authenticate_user!, except: %i[show catalog autocomplete]
   before_action :set_product, only: %i[show edit update destroy]
   before_action :authorize_user!, only: %i[edit update destroy]
 
@@ -13,7 +13,6 @@ class ProductsController < ApplicationController
   end
 
   def show
-    @product = Product.find(params[:id])
   end
 
   def new
@@ -22,7 +21,6 @@ class ProductsController < ApplicationController
 
   def create
     @product = current_user.products.build(product_params)
-    Rails.logger.debug "Product Params: #{product_params.inspect}" # Debug line
     if @product.save
       redirect_to @product, notice: 'Producto creado exitosamente.'
     else
@@ -34,7 +32,6 @@ class ProductsController < ApplicationController
   end
 
   def update
-    Rails.logger.debug "Product Params: #{product_params.inspect}" # Debug line
     if @product.update(product_params)
       redirect_to @product, notice: 'Producto actualizado exitosamente.'
     else
@@ -47,6 +44,18 @@ class ProductsController < ApplicationController
     redirect_to products_url, notice: 'Producto eliminado exitosamente.'
   end
 
+  def autocomplete
+    if params[:query].present?
+      @products = Product.search_by_attributes(params[:query]).limit(3)
+    else
+      @products = Product.none
+    end
+
+    respond_to do |format|
+      format.json { render json: @products.to_json(only: [:id, :model, :brand, :price], methods: [:image_url]) }
+    end
+  end
+
   private
 
   def set_product
@@ -54,8 +63,7 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    params.require(:product).permit(:category_id, :price, :description, :model, :brand, :image, :release_date,
-                                    :quantity_available, :size)
+    params.require(:product).permit(:category_id, :price, :description, :model, :brand, :image, :release_date, :quantity_available, :size)
   end
 
   def authorize_user!
