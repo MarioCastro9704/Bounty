@@ -15,10 +15,10 @@
 <div class="container">
   <div class="row justify-content-center container-fluid">
     <div class="">
-      <div class="bg-white p-4 card-rounded p-5  card">
+      <div class="bg-white p-4 card-rounded p-5 card">
         <%= form_with url: root_path, method: :get, local: true do %>
           <div class="input-group input-group-lg">
-            <%= text_field_tag :query, params[:query], class: "form-control", placeholder: "Busca moda exclusiva", aria: {label: "Busca por ciudad, zona o barrio"} %>
+            <%= text_field_tag :query, params[:query], class: "form-control", placeholder: "Busca moda exclusiva", aria: {label: "Busca por ciudad, zona o barrio"}, id: "search-input" %>
             <div class="input-group-append">
               <%= submit_tag "Buscar", class: "btn btn-primary btn-lg", id: "button-addon2" %>
             </div>
@@ -29,12 +29,11 @@
             <%= flash[:alert] %>
           </div>
         <% end %>
+        <div id="autocomplete-results" class="list-group mt-3"></div>
       </div>
     </div>
   </div>
 </div>
-
-
 
 <div class="container my-5">
   <h2 class="mb-4">Últimos Lanzamientos</h2>
