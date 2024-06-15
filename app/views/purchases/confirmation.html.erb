@@ -1,0 +1,33 @@
+<h1>Confirmación de Pedido</h1>
+
+<div class="container mt-5">
+  <div class="alert alert-success">
+    <h4 class="alert-heading">¡Pago recibido con éxito!</h4>
+    <p>Gracias por su compra. Su número de orden es <strong><%= @purchase.id %></strong>.</p>
+  </div>
+
+  <h2>Detalles del Pedido</h2>
+  <ul class="list-group mb-3">
+    <% @purchase.cart.cart_items.each do |item| %>
+      <li class="list-group-item d-flex justify-content-between lh-sm">
+        <div>
+          <h6 class="my-0"><%= item.product.model %></h6>
+          <small class="text-muted"><%= item.product.description %></small>
+        </div>
+        <span class="text-muted"><%= number_to_currency(item.product.price, unit: "CLP") %></span>
+      </li>
+    <% end %>
+    <li class="list-group-item d-flex justify-content-between">
+      <span>Subtotal</span>
+      <strong><%= number_to_currency(@purchase.cart.total_price, unit: "CLP") %></strong>
+    </li>
+    <li class="list-group-item d-flex justify-content-between">
+      <span>Total</span>
+      <strong><%= number_to_currency(@purchase.cart.total_price, unit: "CLP") %></strong>
+    </li>
+  </ul>
+
+  <div class="text-center">
+    <%= link_to 'Volver al inicio', root_path, class: 'btn btn-primary' %>
+  </div>
+</div>
