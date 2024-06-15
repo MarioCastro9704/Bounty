@@ -6,31 +6,35 @@
     <a href="<%= catalog_products_path %>" class="btn btn-light btn-lg mt-4">Ver Catalog</a>
   </div>
   <div class="hero-bg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('<%= asset_path("hero.webp") %>') no-repeat center center; background-size: cover; filter: blur(5px);"></div>
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('<%= asset_path("herox.jpg") %>') no-repeat center center; background-size: cover; filter: blur(5px);"></div>
     <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.2);"></div>
   </div>
 </div>
 
 <!-- Barra de búsqueda -->
-<div class="container my-5">
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <%= form_with url: root_path, method: :get, local: true do %>
-        <div class="input-group mb-3">
-          <%= text_field_tag :query, params[:query], class: "form-control", placeholder: "Buscar producto..." %>
-          <div class="input-group-append">
-            <%= submit_tag "Buscar", class: "btn btn-primary" %>
+<div class="container">
+  <div class="row justify-content-center container-fluid">
+    <div class="">
+      <div class="bg-white p-4 card-rounded p-5  card">
+        <%= form_with url: root_path, method: :get, local: true do %>
+          <div class="input-group input-group-lg">
+            <%= text_field_tag :query, params[:query], class: "form-control", placeholder: "Busca moda exclusiva", aria: {label: "Busca por ciudad, zona o barrio"} %>
+            <div class="input-group-append">
+              <%= submit_tag "Buscar", class: "btn btn-primary btn-lg", id: "button-addon2" %>
+            </div>
           </div>
-        </div>
-      <% end %>
-      <% if flash[:alert] %>
-        <div class="alert alert-warning">
-          <%= flash[:alert] %>
-        </div>
-      <% end %>
+        <% end %>
+        <% if flash[:alert] %>
+          <div class="alert alert-warning">
+            <%= flash[:alert] %>
+          </div>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
+
+
 
 <div class="container my-5">
   <h2 class="mb-4">Últimos Lanzamientos</h2>
