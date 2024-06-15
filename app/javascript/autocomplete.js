@@ -21,47 +21,33 @@ document.addEventListener("turbo:load", () => {
             item.className = "list-group-item list-group-item-action";
             item.href = `/products/${product.id}`;
             item.style.display = "flex";
-            item.style.alignItems = "center";
+            item.style.justifyContent = "space-between";
             item.style.padding = "10px";
             item.style.border = "1px solid #ddd";
             item.style.marginBottom = "5px";
             item.style.backgroundColor = "#fff";
             item.style.borderRadius = "5px";
+            item.style.textDecoration = "none";
+            item.style.color = "#333";
 
-            const img = document.createElement("img");
-            img.src = product.image_url;
-            img.alt = product.model;
-            img.style.width = "50px";
-            img.style.height = "50px";
-            img.style.objectFit = "cover";
-            img.style.marginRight = "15px";
-            img.style.borderRadius = "5px";
-
-            const textContainer = document.createElement("div");
-            textContainer.style.flex = "1";
-
-            const model = document.createElement("h5");
-            model.innerText = product.model;
-            model.style.margin = "0";
-            model.style.fontSize = "1rem";
-
-            const brand = document.createElement("p");
+            const brand = document.createElement("span");
             brand.innerText = product.brand;
-            brand.style.margin = "0";
-            brand.style.color = "#666";
-            brand.style.fontSize = "0.875rem";
+            brand.style.flex = "1";
+            brand.style.marginRight = "10px";
 
-            const price = document.createElement("small");
+            const model = document.createElement("span");
+            model.innerText = product.model;
+            model.style.flex = "2";
+            model.style.marginRight = "10px";
+
+            const price = document.createElement("span");
             price.innerText = `$${product.price}`;
-            price.style.color = "#333";
-            price.style.fontSize = "0.875rem";
+            price.style.flex = "1";
+            price.style.textAlign = "right";
 
-            textContainer.appendChild(model);
-            textContainer.appendChild(brand);
-            textContainer.appendChild(price);
-
-            item.appendChild(img);
-            item.appendChild(textContainer);
+            item.appendChild(brand);
+            item.appendChild(model);
+            item.appendChild(price);
 
             resultsContainer.appendChild(item);
           });
