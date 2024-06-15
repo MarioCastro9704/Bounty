@@ -1,93 +1,150 @@
-<div class="container-fluid mt-5 px-5">
-  <div class="text-center mb-4">
-    <h1>Detalle de <%= @product.product_type %></h1>
-  </div>
-
-  <div class="card mb-3 w-100">
-    <div class="row g-0">
-      <div class="col-md-6">
-        <% if @product.image.attached? %>
-          <%= cl_image_tag @product.image.key, class: "img-fluid rounded-start product-image fixed-size-image", alt: @product.model, style: "width: 100%; height: auto; max-height: 600px; object-fit: cover;" %>
-        <% else %>
-          <%= image_tag 'default_image.jpg', class: "img-fluid rounded-start product-image fixed-size-image", alt: @product.model, style: "width: 100%; height: auto; max-height: 600px; object-fit: cover;" %>
-        <% end %>
-      </div>
-
-      <div class="col-md-6 d-flex flex-column">
-        <div class="card-body flex-grow-1">
-          <span class="heading-color bg-secondary text-white small rounded-3 px-3 py-2"><%= @product.category %></span>
-          <span class="heading-color bg-secondary text-white small rounded-3 px-3 py-2"><%= @product.brand %></span>
-          <h1 style="font-size: 30px;" class="card-title my-4"><%= @product.model %></h1>
-
-          <p class="card-text mb-4"><%= @product.description %></p>
-          <ul class="list-group list-group-borderless list-group-flush mb-4">
-           <strong style="font-size: 30px;" class="card-title"><%= @product.model %></strong>
-            <p class="card-text"><%= @product.brand %></p>
-            <p class="card-text"><%= @product.description %></p>
-            <p class="card-text"><strong>Talla:</strong> <%= @product.size %></p>
-            <p class="card-text"><strong>Precio:</strong> <%= number_to_currency(@product.price) %></p>
-            <p class="card-text"><strong>Cantidad Disponible:</strong> <%= @product.quantity_available %></p>
-          </ul>
-          <div class="row mb-4">
-            <div class="col-sm-6 mb-4 mb-sm-0">
-              <div class="bg-dark text-white rounded text-center p-3">
-                <span class="h2 text-white"><%= @product.release_date %></span>
-                <p class="mb-0">Lanzamiento</p>
-              </div>
-            </div>
-            <div class="col-sm-6 mb-4 mb-sm-0">
-              <div class="bg-primary rounded text-center p-3">
-                <span class="h2 text-white">+10</span>
-                <p class="mb-0 text-white">Años de Experiencia</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card-footer">
-          <h1 style="font-size: 25px;" class="card-title my-2"><%= number_with_precision(@product.price, precision: 2) %> USD</h1>
-          <p class="card-text"><small class="text-body-secondary">Envio gratis por compras mayores a 200 dólares.</small></p>
-          <% if user_signed_in? %>
-            <%= button_to 'Comprar', add_to_cart_path(product_id: @product.id), method: :post, class: "btn btn-primary my-2 mx-1 rounded-pill" %>
+<main class="content-wrapper mt-5">
+  <section class="container">
+    <div class="row">
+      <!-- Imagen -->
+      <div class="col-md-6 pb-4 pb-md-0 mb-2 mb-sm-3 mb-md-0">
+        <div class="position-relative">
+          <% if @product.image.attached? %>
+            <%= cl_image_tag @product.image.key, class: "img-fluid product-image", alt: @product.model, style: "width: 100%; height: auto; max-height: 600px; object-fit: cover;" %>
           <% else %>
-            <%= link_to new_user_session_path, class: "btn btn-outline-primary me-2 rounded-pill" do %>
-              Login
-            <% end %>
-            <%= link_to new_user_registration_path, class: "btn btn-primary rounded-pill text-white" do %>
-              Sign-up
-            <% end %>
+            <%= image_tag 'default_image.jpg', class: "img-fluid rounded product-image", alt: @product.model, style: "width: 100%; height: auto; max-height: 600px; object-fit: cover;" %>
           <% end %>
         </div>
       </div>
-    </div>
-  </div>
-</div>
-
-  <!-- Section for Reviews and Ratings -->
-  <div class="reviews-section mt-5">
-
-    <h4>Evaluaciones</h4>
-
-    <% if user_signed_in? %>
-      <%= form_with model: [@product, @product.reviews.build], url: product_reviews_path(@product), local: true do |form| %>
-        <div class="form-group">
-          <label for="rating">How would you rate your experience?</label>
-          <div class="star-rating">
-            <% 5.times do |i| %>
-              <input type="radio" id="star<%= i+1 %>" name="review[rating]" value="<%= i+1 %>">
-              <label for="star<%= i+1 %>" class="fas fa-star"></label>
-            <% end %>
+      <!-- Contenido -->
+      <div class="col-md-6">
+        <div class="ps-md-4 ps-xl-5">
+          <!-- rating - estrellas -->
+          <a class="d-none d-md-flex align-items-center gap-2 text-decoration-none mb-3">
+            <div class="d-flex gap-1 fs-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+                <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z"/>
+              </svg>
+            </div>
+            <span class="text-body-tertiary fs-sm">23 reviews</span>
+          </a>
+          <!-- Modelo, Descripción y Precio-->
+          <h1 class="h3"><%= @product.model %></h1>
+          <h6 class="mb-5"><%= @product.category.name %> - <%= @product.brand %></h6>
+          <p class="fs-sm mb-0"><%= @product.description %></p>
+          <div class="h4 d-flex align-items-center my-4">
+            <%= number_to_currency(@product.price) %>
+            <del class="fs-6 fw-normal text-body-tertiary ms-2"><%= number_to_currency(@product.price * 1.2) %></del>
           </div>
+          <!-- Tallas -->
+          <div class="pb-3 mb-2 mb-lg-3">
+            <label class="form-label fw-semibold pb-1 mb-2">Size</label>
+            <div class="d-flex flex-wrap gap-2">
+              <input type="radio" class="btn-check rounded-pill" name="size-option" id="sz-1" checked>
+              <label for="sz-1" class="btn btn-sm btn-outline-secondary flex-fill rounded-pill">S</label>
+              <input type="radio" class="btn-check" name="size-option" id="sz-2">
+              <label for="sz-2" class="btn btn-sm btn-outline-secondary flex-fill rounded-pill">M</label>
+              <input type="radio" class="btn-check" name="size-option" id="sz-3">
+              <label for="sz-3" class="btn btn-sm btn-outline-secondary flex-fill rounded-pill">L</label>
+              <input type="radio" class="btn-check" name="size-option" id="sz-4">
+              <label for="sz-4" class="btn btn-sm btn-outline-secondary flex-fill rounded-pill">XS</label>
+              <input type="radio" class="btn-check" name="size-option" id="sz-5">
+              <label for="sz-5" class="btn btn-sm btn-outline-secondary flex-fill rounded-pill">XM</label>
+            </div>
+          </div>
+          <!-- Cantidad y Comprar -->
+          <div class="d-flex align-items-center gap-3 pb-3 pb-lg-4 mb-3">
+            <div class="d-flex align-items-center">
+              <button type="button" class="btn btn-icon btn-lg d-flex justify-content-center align-items-center" data-decrement aria-label="Decrement quantity">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dash" viewBox="0 0 16 16">
+                  <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8"/>
+                </svg>
+              </button>
+              <input type="number" class="form-control form-control-lg text-center mx-2 rounded-pill" min="1" value="1" readonly>
+              <button type="button" class="btn btn-icon btn-lg d-flex justify-content-center align-items-center" data-increment aria-label="Increment quantity">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                </svg>
+              </button>
+            </div>
+
+            <%= form_with url: add_to_cart_path(product_id: @product.id), method: :post, class: "d-inline w-100" do %>
+              <button type="submit" class="btn btn-lg btn-dark w-100 rounded-pill">Comprar</button>
+            <% end %>
+
+          </div>
+          <!-- detalles aleatorio -->
+          <ul class="list-unstyled gap-3 pb-3 pb-lg-4 mb-3">
+            <li class="d-flex flex-wrap fs-sm mb-4">
+              <span class="d-flex align-items-center fw-medium text-dark-emphasis me-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-check me-2" viewBox="0 0 16 16">
+                  <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+                  <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4z"/>
+                </svg>
+                Fecha de Lanzamiento:
+              </span>
+              <%= @product.release_date %>.
+            </li>
+            <li class="d-flex flex-wrap fs-sm mb-4">
+              <span class="d-flex align-items-center fw-medium text-dark-emphasis me-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock me-2" viewBox="0 0 16 16">
+                  <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>
+                  <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"/>
+                </svg>
+                Tiempo estimado de Entrega:
+              </span>
+              15 - 27 Jul, 2024.
+            </li>
+            <li class="d-flex flex-wrap fs-sm">
+              <span class="d-flex align-items-center fw-medium text-dark-emphasis me-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-truck me-2" viewBox="0 0 16 16">
+                  <path d="M0 3.5A1.5 1.5 0 0 1 1.5 2h9A1.5 1.5 0 0 1 12 3.5V5h1.02a1.5 1.5 0 0 1 1.17.563l1.481 1.85a1.5 1.5 0 0 1 .329.938V10.5a1.5 1.5 0 0 1-1.5 1.5H14a2 2 0 1 1-4 0H5a2 2 0 1 1-3.998-.085A1.5 1.5 0 0 1 0 10.5zm1.294 7.456A2 2 0 0 1 4.732 11h5.536a2 2 0 0 1 .732-.732V3.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5v7a.5.5 0 0 0 .294.456M12 10a2 2 0 0 1 1.732 1h.768a.5.5 0 0 0 .5-.5V8.35a.5.5 0 0 0-.11-.312l-1.48-1.85A.5.5 0 0 0 13.02 6H12zm-9 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m9 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2"/>
+                </svg>
+                Entrega gratis:
+              </span>
+              Sobre compras mayores a 100 dólares.
+            </li>
+          </ul>
         </div>
-        <div class="form-group mt-3">
-          <%= form.text_area :content, class: "form-control", placeholder: "Share your insights on the experience. Other travelers would love to hear your expertise!" %>
-        </div>
-        <%= form.submit 'Enviar', class: "btn btn-primary mt-2" %>
+      </div>
+    </div>
+  </section>
+
+  <section class="container pt-5 mt-2 mt-sm-3 mt-lg-4 mt-xl-5">
+    <div class="reviews-section mt-5">
+
+      <h4>Evaluaciones</h4>
+
+      <% if user_signed_in? %>
+        <%= form_with model: [@product, @product.reviews.build], url: product_reviews_path(@product), local: true do |form| %>
+          <div class="form-group">
+            <label for="rating">How would you rate your experience?</label>
+            <div class="star-rating">
+              <% 5.times do |i| %>
+                <input type="radio" id="star<%= i+1 %>" name="review[rating]" value="<%= i+1 %>">
+                <label for="star<%= i+1 %>" class="fas fa-star"></label>
+              <% end %>
+            </div>
+          </div>
+          <div class="form-group mt-3">
+            <%= form.text_area :content, class: "form-control", placeholder: "Share your insights on the experience. Other travelers would love to hear your expertise!" %>
+          </div>
+          <%= form.submit 'Enviar', class: "btn btn-primary mt-2" %>
+        <% end %>
+      <% else %>
+        <p><%= link_to 'Login', new_user_session_path %> or <%= link_to 'Sign-up', new_user_registration_path %> to leave a review and rating.</p>
       <% end %>
-    <% else %>
-      <p><%= link_to 'Login', new_user_session_path %> or <%= link_to 'Sign-up', new_user_registration_path %> to leave a review and rating.</p>
-    <% end %>
-  </div>
-</div>
+    </div>
+  </section>
+</main>
+
 
 <style>
   .star-rating {
@@ -114,5 +171,40 @@
   .star-rating label:hover,
   .star-rating label:hover ~ label {
     color: #ffff20;
+  }
+</style>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const maxQuantity = <%= @product.quantity_available %>; // Inserta la cantidad máxima disponible desde tu variable del servidor
+
+    document.querySelectorAll('[data-increment]').forEach(button => {
+      button.addEventListener('click', () => {
+        const input = button.previousElementSibling;
+        const currentValue = parseInt(input.value);
+
+        if (currentValue < maxQuantity) {
+          input.value = currentValue + 1;
+        }
+      });
+    });
+
+    document.querySelectorAll('[data-decrement]').forEach(button => {
+      button.addEventListener('click', () => {
+        const input = button.nextElementSibling;
+        const currentValue = parseInt(input.value);
+
+        if (currentValue > 1) {
+          input.value = currentValue - 1;
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .product-image {
+    border-radius: 1rem; /* Ajusta este valor según tus necesidades */
   }
 </style>
