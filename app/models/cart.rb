@@ -10,8 +10,9 @@ class Cart < ApplicationRecord
         current_item.errors.add(:base, "No hay suficiente stock disponible para agregar más de este producto.")
       end
     else
-      current_item = cart_items.build(product_id: product.id)
+      current_item = cart_items.build(product_id: product.id, quantity: 1)
     end
+    current_item.save
     current_item
   end
 
