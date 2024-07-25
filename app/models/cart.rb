@@ -20,7 +20,7 @@ class Cart < ApplicationRecord
     return unless current_item
 
     current_item.decrement(:quantity)
-    current_item.save if current_item.quantity > 0
+    current_item.save if current_item.quantity.positive?
     current_item.destroy if current_item.quantity <= 0
   end
 

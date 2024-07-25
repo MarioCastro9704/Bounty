@@ -52,7 +52,7 @@ class ProductsController < ApplicationController
     end
 
     respond_to do |format|
-      format.json { render json: @products.to_json(only: [:id, :model, :brand, :price], methods: [:image_url]) }
+      format.json { render json: @products.to_json(only: %i[id model brand price], methods: [:image_url]) }
     end
   end
 
@@ -63,7 +63,8 @@ class ProductsController < ApplicationController
   end
 
   def product_params
-    params.require(:product).permit(:category_id, :price, :description, :model, :brand, :image, :release_date, :quantity_available, :size)
+    params.require(:product).permit(:category_id, :price, :description, :model, :brand, :image, :release_date,
+                                    :quantity_available, :size)
   end
 
   def authorize_user!

@@ -20,7 +20,7 @@ class CartsController < ApplicationController
   def remove
     @cart = current_cart
     item = @cart.cart_items.find_by(product_id: params[:product_id])
-    item.destroy if item
+    item&.destroy
     redirect_to cart_path
   end
 
@@ -28,7 +28,7 @@ class CartsController < ApplicationController
     @cart = current_cart
     item = @cart.cart_items.find(params[:id])
     if params[:quantity].to_i <= item.product.quantity_available
-      item.update(quantity: params[:quantity]) if params[:quantity].to_i > 0
+      item.update(quantity: params[:quantity]) if params[:quantity].to_i.positive?
     else
       flash[:alert] = "No hay suficiente stock disponible para actualizar la cantidad."
     end
