@@ -1,13 +1,13 @@
 class Product < ApplicationRecord
   include PgSearch::Model
   pg_search_scope :search_by_attributes,
-    against: %i[model description brand],
-    associated_against: {
-      category: :name
-    },
-    using: {
-      tsearch: { prefix: true }
-    }
+                  against: %i[model description brand],
+                  associated_against: {
+                    category: :name
+                  },
+                  using: {
+                    tsearch: { prefix: true }
+                  }
   belongs_to :user
   belongs_to :category
   has_many :purchases
@@ -20,10 +20,11 @@ class Product < ApplicationRecord
 
   validates :price, :description, :model, :brand, :release_date, :quantity_available, :size, presence: true
   validates :price, numericality: { greater_than_or_equal_to: 0 }
-  validates :quantity_available, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 999999 }
+  validates :quantity_available,
+            numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 999_999 }
 
   def average_rating
-    if ratings.count > 0
+    if ratings.count.positive?
       ratings.average(:score).to_f.round(2)
     else
       0
@@ -33,8 +34,8 @@ class Product < ApplicationRecord
   private
 
   def sanitize_price
-    if price.present?
-      self.price = price.to_s.gsub(/[^0-9.]/, '').to_f
-    end
+    return unless price.present?
+
+    self.price = price.to_s.gsub(/[^0-9.]/, '').to_f
   end
 end

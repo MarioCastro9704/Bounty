@@ -20,7 +20,7 @@ class PurchasesController < ApplicationController
   def create
     @purchase = Purchase.new(purchase_params)
     @purchase.user = current_user
-    @purchase.cart_id = @cart.id  # Asignar directamente el cart_id
+    @purchase.cart_id = @cart.id # Asignar directamente el cart_id
 
     if @purchase.save
       session[:cart_id] = nil # Limpiar el carrito después de la compra
@@ -62,6 +62,7 @@ class PurchasesController < ApplicationController
   end
 
   def purchase_params
-    params.require(:purchase).permit(:address, :payment_method, :country, :first_name, :last_name, :postal_code, :commune, :region, :phone, :billing_address, :shipping_method)
+    params.require(:purchase).permit(:address, :payment_method, :country, :first_name, :last_name, :postal_code,
+                                     :commune, :region, :phone, :billing_address, :shipping_method)
   end
 end
